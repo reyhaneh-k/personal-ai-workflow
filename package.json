@@ -12,6 +12,7 @@
     "ai:env-check": "node scripts/ai/load-ai-env.mjs",
     "ai:context7-status": "node scripts/ai/context7-status.mjs",
     "ai:worktree:add": "node scripts/ai/add-worktree.mjs",
-    "ai:proposal-check": "node ai/governance/check-proposal.mjs"
+    "ai:proposal-check": "node ai/governance/check-proposal.mjs",
+    "ai:hook:test": "node --test scripts/ai/cursor-hook-guard.test.mjs"
   }
 }

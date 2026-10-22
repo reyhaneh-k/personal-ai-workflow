@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeReadFile": [
+      {
+        "command": "node .cursor/hooks/guard-sensitive-access.mjs",
+        "timeout": 5,
+        "failClosed": true
+      }
+    ],
+    "beforeShellExecution": [
+      {
+        "command": "node .cursor/hooks/guard-sensitive-access.mjs",
+        "timeout": 5,
+        "failClosed": true
+      }
+    ],
+    "afterFileEdit": [
+      {
+        "command": "node .cursor/hooks/post-edit-guidance.mjs",
+        "timeout": 5
+      }
+    ]
+  }
+}
