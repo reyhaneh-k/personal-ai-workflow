@@ -1,0 +1,5 @@
+{
+  "skillsDirectory": ".cursor/skills",
+  "agentsDirectory": ".cursor/agents",
+  "agentModel": "inherit"
+}

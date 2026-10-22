@@ -1,0 +1,10 @@
+{
+  "personal-coordinator": ["/create-subagent", "/migrate-to-skills", "/split-to-prs"],
+  "personal-debugger": ["/cursor-blame", "/shell"],
+  "personal-e2e-tester": ["/shell", "/canvas"],
+  "personal-frontend-implementer": ["/shell", "/sdk", "/autopilot"],
+  "personal-reviewer": ["/review", "/review-bugbot", "/review-security"],
+  "personal-sentry-monitor": ["/automate", "/loop", "/canvas"],
+  "personal-test-verifier": ["/shell", "/canvas"],
+  "personal-webview-tester": ["/shell", "/canvas"]
+}

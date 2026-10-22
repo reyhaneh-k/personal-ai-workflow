@@ -1,0 +1,17 @@
+{
+  "name": "personal-ai-workflow",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "ai:generate": "node ai/generator/generate.mjs",
+    "ai:preview": "node ai/generator/generate.mjs --dry-run",
+    "ai:check": "node ai/generator/generate.mjs --check",
+    "ai:test": "node --test ai/generator/generate.test.mjs ai/governance/check-proposal.test.mjs scripts/ai/context-audit.test.mjs scripts/ai/token-usage-audit.test.mjs scripts/ai/load-ai-env.test.mjs scripts/ai/context7-status.test.mjs",
+    "ai:context-audit": "node scripts/ai/context-audit.mjs",
+    "ai:token-audit": "node scripts/ai/token-usage-audit.mjs",
+    "ai:env-check": "node scripts/ai/load-ai-env.mjs",
+    "ai:context7-status": "node scripts/ai/context7-status.mjs",
+    "ai:worktree:add": "node scripts/ai/add-worktree.mjs",
+    "ai:proposal-check": "node ai/governance/check-proposal.mjs"
+  }
+}

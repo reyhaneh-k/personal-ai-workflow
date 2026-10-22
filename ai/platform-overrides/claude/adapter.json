@@ -1,0 +1,15 @@
+{
+  "skillsDirectory": ".claude/skills",
+  "agentsDirectory": ".claude/agents",
+  "agentModel": "inherit",
+  "readOnlyDisallowedTools": [
+    "Write",
+    "Edit",
+    "NotebookEdit"
+  ],
+  "agentOverrides": {
+    "personal-sentry-monitor": {
+      "memory": "project"
+    }
+  }
+}

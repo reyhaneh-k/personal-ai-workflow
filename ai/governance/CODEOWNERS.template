@@ -1,0 +1,29 @@
+# Optional reference only. Not an active CODEOWNERS file or agreed policy.
+# No individual is assigned AI ownership. Do not activate without team agreement.
+# If separately adopted, replace {{AI_OWNER}} with the team's chosen review group.
+# Review routing never replaces the meeting-first process in docs/ai/governance.md.
+[AI governance][1]
+/ai/ {{AI_OWNER}}
+/AGENTS.md {{AI_OWNER}}
+**/AGENTS.md {{AI_OWNER}}
+**/AGENTS.override.md {{AI_OWNER}}
+/CLAUDE.md {{AI_OWNER}}
+**/CLAUDE.md {{AI_OWNER}}
+**/CLAUDE.local.md {{AI_OWNER}}
+**/.cursorrules {{AI_OWNER}}
+/.agents/ {{AI_OWNER}}
+/.cursor/ {{AI_OWNER}}
+/.claude/ {{AI_OWNER}}
+/.codex/ {{AI_OWNER}}
+**/.agents/** {{AI_OWNER}}
+**/.cursor/** {{AI_OWNER}}
+**/.claude/** {{AI_OWNER}}
+**/.codex/** {{AI_OWNER}}
+/docs/ai/ {{AI_OWNER}}
+/scripts/ai/ {{AI_OWNER}}
+/CODEOWNERS {{AI_OWNER}}
+/docs/CODEOWNERS {{AI_OWNER}}
+/.gitlab/ {{AI_OWNER}}
+/.gitlab-ci.yml {{AI_OWNER}}
+# Ownership matching cannot inspect JSON keys, so this covers all package edits.
+/package.json {{AI_OWNER}}
