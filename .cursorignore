@@ -1,0 +1,18 @@
+# Keep secrets and private machine material out of Cursor's code context.
+# This is defense in depth, not protection from terminal or MCP tools.
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.template
+**/credentials.json
+**/secrets.json
+**/*.pem
+**/*.key
+**/id_rsa
+**/id_ed25519
+**/.ssh/**
+**/.aws/**
+**/.gcp/**
+**/.azure/**
+**/private/**
+**/*secret*

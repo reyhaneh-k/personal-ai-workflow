@@ -41,7 +41,9 @@ lerna-debug.log*
 .idea
 
 # Local AI outputs and personal platform settings. Edit ai/ sources instead.
-/.cursor/
+/.cursor/*
+!/.cursor/permissions.json
+!/.cursor/sandbox.json
 /.claude/
 /.agents/
 **/AGENTS.md

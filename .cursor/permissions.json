@@ -1,0 +1,18 @@
+{
+  "autoRun": {
+    "allow_instructions": [
+      "Allow read-only Git inspection commands, including git status, git diff, git log, git show, and git branch --show-current.",
+      "Allow node ai/generator/generate.mjs --check and node ai/generator/generate.mjs --dry-run.",
+      "Allow the repository's dependency-free AI test commands.",
+      "Allow searches and reads confined to the current workspace."
+    ],
+    "block_instructions": [
+      "Require approval for every command that accesses paths outside this workspace.",
+      "Require approval for every network request, package installation, dependency update, or download.",
+      "Require approval for every Git write operation, including commit, push, pull, merge, rebase, tag, remote, reset, or branch deletion.",
+      "Require approval before reading, printing, changing, or transmitting credentials, tokens, SSH material, environment files, or other sensitive data.",
+      "Require approval for commands that start long-running servers, containers, background processes, or browser automation.",
+      "Require approval for destructive filesystem operations or any command that deletes, overwrites, moves, or recursively changes files."
+    ]
+  }
+}

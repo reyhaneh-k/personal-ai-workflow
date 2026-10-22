@@ -13,3 +13,5 @@ node --test ai/generator/generate.test.mjs
 ```
 
 Use `npm run ai:generate`, `pnpm ai:generate`, or the equivalent package-manager command if preferred. See [ai/README.md](ai/README.md) for source layout, validation, recovery, Cursor plugin testing, and worktree guidance.
+
+Cursor's repository-level local-agent policy is documented in [CURSOR_SANDBOXING.md](CURSOR_SANDBOXING.md).
