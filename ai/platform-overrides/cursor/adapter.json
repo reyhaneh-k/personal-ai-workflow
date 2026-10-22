@@ -1,5 +1,15 @@
 {
   "skillsDirectory": ".cursor/skills",
   "agentsDirectory": ".cursor/agents",
-  "agentModel": "inherit"
+  "agentModel": "inherit",
+  "agentOverrides": {
+    "personal-coordinator": { "model": "composer-2.5[fast=false]" },
+    "personal-debugger": { "model": "composer-2.5[fast=false]" },
+    "personal-frontend-implementer": { "model": "composer-2.5[fast=false]" },
+    "personal-reviewer": { "model": "composer-2.5[fast=false]" },
+    "personal-e2e-tester": { "model": "composer-2.5" },
+    "personal-sentry-monitor": { "model": "composer-2.5" },
+    "personal-test-verifier": { "model": "composer-2.5" },
+    "personal-webview-tester": { "model": "composer-2.5" }
+  }
 }

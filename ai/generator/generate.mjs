@@ -169,7 +169,15 @@ export async function render(root) {
     if (Object.keys(overrides).some((name) => !roles.some((r) => r.name === name)))
       throw new Error('Unknown role override: ' + platform);
     for (const role of roles) {
-      const lines = ['---', 'name: ' + role.name, 'description: ' + JSON.stringify(role.description), 'model: inherit'];
+      const override = overrides[role.name] ?? {};
+      let model = 'inherit';
+      if (platform === 'cursor') {
+        if (Object.keys(override).some((key) => key !== 'model') ||
+          (override.model && !/^[a-z0-9][a-z0-9.-]*(?:\[[a-zA-Z0-9=,.-]*\])?$/.test(override.model)))
+          throw new Error('Unsupported Cursor role override');
+        if (override.model) model = override.model;
+      }
+      const lines = ['---', 'name: ' + role.name, 'description: ' + JSON.stringify(role.description), 'model: ' + model];
       if (platform === 'claude') {
         if (role.readOnly) {
           if (!Array.isArray(adapter.readOnlyDisallowedTools) ||
@@ -179,7 +187,6 @@ export async function render(root) {
           lines.push('disallowedTools: ' + adapter.readOnlyDisallowedTools.join(', '));
         }
         lines.push('skills:', ...role.skills.map((s) => '  - ' + s));
-        const override = overrides[role.name] ?? {};
         if (Object.keys(override).some((k) => k !== 'memory') || (override.memory && override.memory !== 'project'))
           throw new Error('Unsupported Claude role override');
         if (override.memory) lines.push('memory: project');

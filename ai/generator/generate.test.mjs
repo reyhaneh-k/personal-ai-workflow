@@ -268,10 +268,13 @@ test('Cursor agents receive their scoped native capabilities without leaking the
   const outputs = await render(repo);
   const reviewer = outputs.get('.cursor/agents/personal-reviewer.md');
   assert.match(reviewer, /## Native Cursor capabilities/);
+  assert.match(reviewer, /model: composer-2\.5\[fast=false\]/);
   assert.match(reviewer, /`\/review`, `\/review-bugbot`, `\/review-security`/);
   assert.match(reviewer, /only when the human explicitly requests them/);
   assert.doesNotMatch(outputs.get('.claude/agents/personal-reviewer.md'), /Native Cursor capabilities/);
   assert.doesNotMatch(outputs.get('.claude/agents/personal-reviewer.md'), /`\/review-bugbot`/);
+  assert.match(outputs.get('.claude/agents/personal-reviewer.md'), /model: inherit/);
+  assert.match(outputs.get('.cursor/agents/personal-test-verifier.md'), /model: composer-2\.5/);
   assert.match(outputs.get('docs/ai/agents.md'), /Cursor built-ins/);
 });
 
