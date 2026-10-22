@@ -7,7 +7,7 @@ description: Audit an affected Personal frontend flow for measurable performance
 
 ## Manual context
 
-For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser or Android WebView coverage.
+For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser coverage or webview coverage when `PROJECT.md` enables `webview`.
 
 Required sections: `docs/ai/manual-performance.md`, `docs/ai/manual-architecture.md`, `docs/ai/manual-compatibility.md`.
 
@@ -22,6 +22,6 @@ Read these additional sections when their trigger applies:
 
 Follow the reading contract in `AGENTS.md`. The required and conditional lists above are authoritative for this skill. Consult `docs/ai/manual-routing.md` only for a mixed task or an impact not covered above. Record selected sections and material gaps in the context manifest; never treat template prompts as approved rules.
 
-Define the route, user flow, platform, build mode, network/device profile, and comparison baseline. Inspect bundle impact, route loading, duplicate requests, cache behavior, render frequency, long tasks, layout shifts, image/font loading, memory retention, and Android webview constraints as applicable.
+Define the route, user flow, platform, build mode, network/device profile, and comparison baseline. Inspect bundle impact, route loading, duplicate requests, cache behavior, render frequency, long tasks, layout shifts, image/font loading, memory retention, and webview constraints when `PROJECT.md` enables `webview`.
 
 Prefer measurements from production-like builds over intuition. Report the baseline, measurement method, evidence, user impact, confidence, and smallest remediation direction. Separate confirmed regressions from hypotheses. Do not make broad optimizations or change code unless explicitly requested.

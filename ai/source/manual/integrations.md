@@ -85,12 +85,12 @@ Context7 quotas are request allowances, not model tokens. Do not claim remaining
 
 See `docs/ai/context7.md` for activation and verification on Codex, Cursor, and Claude Code.
 
-## GitLab
+## Source control (GitLab / GitHub / other)
 
-The default workflow prepares a human-opened MR creation link. Remote MR review may later use `glab` or a narrowly scoped read-only token. No agent may push, create, approve, merge, deploy, or enable auto-merge by default.
+Follow the SCM host declared in `PROJECT.md`. The default workflow prepares a human-opened MR/PR creation link (`personal-prepare-mr` for GitLab-style flows; adapt titles/links for GitHub or other hosts). Remote review may later use host CLIs or a narrowly scoped read-only token. No agent may push, create, approve, merge, deploy, or enable auto-merge by default.
 
 ## Browser and webview testing
 
-Use each platform's approved browser capability or project test tooling for browser checks. Android webview behavior that depends on the native bridge requires an emulator or real-device test; desktop browser success is not sufficient evidence.
+Use each platform's approved browser capability or project test tooling for browser checks. When `PROJECT.md` enables `webview`, native-container behavior that depends on the bridge requires an emulator or real-device test; desktop browser success is not sufficient evidence. When webview is off, mark webview specialist steps not applicable.
 
 See `docs/ai/platform-setup.md` and `docs/ai/platform-capabilities.md` for platform ownership and status.

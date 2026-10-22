@@ -17,3 +17,13 @@ Use `npm run ai:generate`, `pnpm ai:generate`, or the equivalent package-manager
 Cursor's repository-level local-agent policy is documented in [CURSOR_SANDBOXING.md](CURSOR_SANDBOXING.md).
 
 Cursor subagent model tiers are defined in `ai/platform-overrides/cursor/adapter.json`: standard Composer 2.5 for complex reasoning roles and the faster Composer 2.5 default for bounded verification and monitoring work.
+
+## Copy into another repository
+
+1. Copy this workflow into the target repository (or start from this template).
+2. Fill in [PROJECT.md](PROJECT.md) (identity, SCM host, verification commands, and capability flags).
+3. Run `pnpm ai:generate` (or `node ai/generator/generate.mjs`).
+4. Confirm Cursor discovers `AGENTS.md`, `.cursor/skills/`, and `.cursor/agents/`.
+5. Disconnect unused MCP servers so their tool schemas do not consume context.
+
+Optional domains (localization, webview, sentry, figma) stay off until their `PROJECT.md` flags are on. Skill and agent IDs keep the `personal-*` prefix. A portable Cursor plugin package is optional; copy-per-repo is the primary path.

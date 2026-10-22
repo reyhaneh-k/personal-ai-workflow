@@ -1,15 +1,15 @@
 ---
 name: personal-debug
-description: Diagnose a difficult reproducible Personal frontend defect from runtime evidence before applying and verifying a targeted fix.
+description: Diagnose a difficult reproducible frontend defect in this project from runtime evidence before applying and verifying a targeted fix.
 ---
 
-# Debug a Personal frontend defect
+# Debug a frontend defect
 
 Use this workflow for defects whose cause is unclear from the available error and code, including race conditions, timing problems, intermittent regressions, memory or performance symptoms, and failures that need runtime state. Use `personal-fix-bug` instead for a straightforward defect with an established cause.
 
 ## Manual context
 
-For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser or Android WebView coverage.
+For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser coverage or native webview coverage when `PROJECT.md` enables webview.
 
 Required sections: `docs/ai/manual-product.md`, `docs/ai/manual-architecture.md`, `docs/ai/manual-testing.md`.
 
@@ -20,7 +20,7 @@ Read these additional sections when their trigger applies:
 - network failures: `docs/ai/manual-api.md`.
 - cache, persisted state, or store behavior: `docs/ai/manual-state.md`.
 - authentication, private data, or sensitive runtime values: `docs/ai/manual-security.md`.
-- Sentry or production logs: `docs/ai/manual-observability.md`.
+- Sentry or production logs when `PROJECT.md` enables sentry: `docs/ai/manual-observability.md`.
 - timing, rendering, memory, or resource symptoms: `docs/ai/manual-performance.md`.
 - visual or interaction behavior: `docs/ai/manual-design.md` and `docs/ai/manual-accessibility.md`.
 
@@ -30,17 +30,17 @@ Follow the reading contract in `AGENTS.md`. The required and conditional lists a
 
 - expected and actual behavior;
 - exact reproduction steps and affected environment;
-- browser, device, webview, user state, and data prerequisites when relevant;
-- available errors, stack traces, screenshots, Sentry evidence, or failing tests;
+- browser, device, user state, and data prerequisites when relevant; webview prerequisites when `PROJECT.md` enables webview;
+- available errors, stack traces, screenshots, failing tests, or Sentry evidence when `PROJECT.md` enables sentry;
 - permission and a safe way to reproduce when the flow touches sensitive or production data.
 
 Ask for material missing information instead of inventing a reproduction or expected behavior.
 
 ## Cursor execution contract
 
-This skill also serves as the persistent Personal debugging playbook. **Use as Mode** pins its instructions where the installed Cursor surface supports it; pinning does not activate native Debug Mode. Preserve native Debug Mode for runtime instrumentation. If the client cannot combine the two, use native Debug Mode with this skill attached and refresh it after lost context. Keep hypotheses, reproduction evidence, and temporary-instrumentation cleanup state in the task record across follow-ups; do not restart an unchanged investigation.
+This skill also serves as the persistent debugging playbook for this project's frontend. **Use as Mode** pins its instructions where the installed Cursor surface supports it; pinning does not activate native Debug Mode. Preserve native Debug Mode for runtime instrumentation. If the client cannot combine the two, use native Debug Mode with this skill attached and refresh it after lost context. Keep hypotheses, reproduction evidence, and temporary-instrumentation cleanup state in the task record across follow-ups; do not restart an unchanged investigation.
 
-On Cursor, run this workflow in native **Debug Mode**. Start it with `/debug` followed by the defect and an instruction to use `personal-debug`, or select Debug from the mode picker before submitting the task. The `personal-debugger` teammate and this skill provide Personal-specific procedure; they do not activate or simulate Cursor Debug Mode.
+On Cursor, run this workflow in native **Debug Mode**. Start it with `/debug` followed by the defect and an instruction to use `personal-debug`, or select Debug from the mode picker before submitting the task. The `personal-debugger` teammate and this skill provide project-specific procedure; they do not activate or simulate Cursor Debug Mode.
 
 If a Cursor session is not in Debug Mode, do not begin runtime instrumentation. Return a compact transfer prompt that includes the confirmed inputs and tells the developer to restart in Debug Mode. Project instructions still apply inside Debug Mode.
 

@@ -1,8 +1,8 @@
-# Persian, RTL, and formatting
+# Localization and formatting
 
 Status: TEMPLATE — project-specific content is not yet supplied or approved.
 
-Read when: Text, layout direction, translation keys, numbers, currency, or dates.
+Read when: `PROJECT.md` enables `localization`, and the task involves text, layout direction, translation keys, numbers, currency, or dates.
 
 ## Contents
 

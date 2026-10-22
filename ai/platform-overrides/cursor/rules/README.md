@@ -6,7 +6,17 @@ This generated directory is reserved for narrowly scoped Cursor project rules. E
 
 ## Current policy
 
-There are no approved Cursor project rules yet. The root `AGENTS.md` remains the only project-wide instruction file for Cursor, Codex, and Claude. Do not create an always-applied Cursor rule that duplicates it.
+The root `AGENTS.md` remains the only project-wide always-on instruction file for Cursor, Codex, and Claude. Do not create an always-applied Cursor rule that duplicates it.
+
+Approved glob-scoped rules in this directory (copied to `.cursor/rules/` on generate):
+
+| Rule | Purpose |
+| --- | --- |
+| `project-profile.mdc` | Enforce `PROJECT.md` flags when editing the profile |
+| `route-files.mdc` | Prefer existing route patterns on common route globs |
+| `locales.mdc` | Localization path conventions when `localization` is on |
+
+Adjust globs to match the paths recorded in each project's `PROJECT.md` after copy.
 
 Add a rule here only after repeated task evidence shows that Cursor needs an instruction that is:
 

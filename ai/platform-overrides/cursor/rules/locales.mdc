@@ -1,0 +1,12 @@
+---
+description: Localization resources follow PROJECT.md localization flag and manual
+globs:
+  - "locales/**"
+  - "**/i18n/**"
+  - "**/messages/**"
+alwaysApply: false
+---
+
+- Apply only when `PROJECT.md` enables `localization`; otherwise treat locale edits as out of scope unless the human explicitly requests them.
+- Prefer existing key namespaces and interpolation patterns; do not invent parallel translation systems.
+- Consult `docs/ai/manual-localization.md` for direction, formatting, and verification expectations.

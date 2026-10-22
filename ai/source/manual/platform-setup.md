@@ -22,7 +22,7 @@ Optional nested instructions are generated from `ai/source/scoped-instructions/<
 | Current third-party docs | Context7 MCP or plugin | Recommended per developer; see `docs/ai/context7.md` |
 | Figma | Authenticated MCP/connector, read-only REST, or supplied export | Per-task human choice and capacity preflight |
 | Sentry | Read-only MCP, repository REST utility, or sanitized export | Per-task human choice and capacity preflight |
-| GitLab | MR link, later `glab` or REST | No plugin required initially |
+| SCM (GitLab/GitHub/other per `PROJECT.md`) | MR/PR link, later host CLI or REST | No plugin required initially |
 | Browser testing | Native Codex browser when available | Per developer/runtime |
 | Security audit | Codex Security plugin | Optional later; not a replacement for review |
 
@@ -56,7 +56,7 @@ To test it locally, copy that generated directory to `~/.cursor/plugins/local/pe
 | --- | --- | --- |
 | Local automated review | Cursor Agent Review | Enable Auto-Run on Agent Finish; Quick default; manual Deep for high-risk work |
 | Independent peer review | `personal-peer-review` | Run after local Agent Review and human finding triage |
-| MR review | Cursor Bugbot for the GitLab repository | Enable repository integration; usage may be billed; Autofix disabled |
+| MR/PR review | Cursor Bugbot for the repository (host per `PROJECT.md`) | Enable repository integration; usage may be billed; Autofix disabled |
 | Current third-party docs | Context7 MCP | Recommended per developer; see `docs/ai/context7.md` |
 | Figma | Authenticated MCP, read-only REST, or supplied export | Per-task human choice and capacity preflight |
 | Sentry | Read-only MCP, repository REST utility, or sanitized export | Per-task human choice and capacity preflight |
@@ -84,7 +84,7 @@ For a difficult reproducible defect, start a fresh Cursor Debug Mode context and
 | Current third-party docs | Context7 MCP | Recommended per developer; see `docs/ai/context7.md` |
 | Figma | Authenticated MCP, read-only REST, or supplied export | Per-task human choice and capacity preflight |
 | Sentry | Read-only MCP, repository REST utility, or sanitized export | Per-task human choice and capacity preflight |
-| GitLab | MR link, later `glab` or REST | No plugin required initially |
+| SCM (GitLab/GitHub/other per `PROJECT.md`) | MR/PR link, later host CLI or REST | No plugin required initially |
 | Browser testing | Approved MCP/browser tool or project tooling | Per developer/runtime |
 
 Claude does not load skill or agent definitions from `.agents/` or `.cursor/` as part of the Personal contract.

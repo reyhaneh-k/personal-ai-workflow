@@ -1,13 +1,13 @@
 ---
 name: personal-verify-task
-description: Verify completed Personal frontend work against its original checklist and produce an evidence-based platform test matrix.
+description: Verify completed frontend work in this project against its original checklist and produce an evidence-based platform test matrix.
 ---
 
-# Verify a Personal frontend task
+# Verify a frontend task
 
 ## Manual context
 
-For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser or Android WebView coverage.
+For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser coverage or native webview coverage when `PROJECT.md` enables webview.
 
 When presenting results in a Canvas, use the current platform's `personal-canvas-report` skill for the stable layout and formatting contract. Pass completed evidence to it; do not repeat this workflow solely for rendering.
 
@@ -21,9 +21,9 @@ Read these additional sections when their trigger applies:
 - response and error scenarios: `docs/ai/manual-api.md`.
 - cache/persistence scenarios: `docs/ai/manual-state.md`.
 - restricted-user scenarios: `docs/ai/manual-security.md`.
-- text and formatting: `docs/ai/manual-localization.md`.
+- text and formatting when `PROJECT.md` enables localization: `docs/ai/manual-localization.md`.
 - UI interaction: `docs/ai/manual-accessibility.md`.
-- telemetry assertions: `docs/ai/manual-observability.md`.
+- telemetry assertions when `PROJECT.md` enables sentry: `docs/ai/manual-observability.md`.
 - performance acceptance criteria: `docs/ai/manual-performance.md`.
 - release-specific checks: `docs/ai/manual-delivery.md`.
 
@@ -35,14 +35,14 @@ Read the original task record, approved checklist, final diff, and `docs/ai/work
 
 1. Map every acceptance criterion and planned checklist item to implementation evidence.
 2. Inspect changes for newly affected surfaces that were absent from the original plan.
-3. Build the required level-purpose matrix from `docs/ai/manual-testing.md`. For unit, integration, browser E2E, and Android webview, separately classify new-behavior and regression coverage as applicable or not applicable with a concrete reason.
+3. Build the required level-purpose matrix from `docs/ai/manual-testing.md`. For unit, integration, browser E2E, and native webview (only when `PROJECT.md` enables webview), separately classify new-behavior and regression coverage as applicable or not applicable with a concrete reason.
 4. Identify changed logic and the relevant unit and integration tests. Run targeted tests first, then run the repository's non-watch unit suite (`pnpm test --run` in the current baseline) when proportionate. Do not substitute an implementer's report for execution.
 5. Report a missing test file, a command that collects no tests, unavailable dependencies, or an unsafe environment as missing/blocked evidence—not a pass. Do not create or edit tests in this read-only role.
 6. Check that regression purpose was considered at every applicable level. A passing new-behavior test does not establish unaffected existing behavior unless the scenario actually covers it.
 7. Run proportionate build or static checks when the change can fail outside behavioral test execution, but do not label those checks as unit, integration, or E2E tests.
 8. Distinguish passed, failed, blocked, not run, and not applicable exactly. Require a reason for every not-applicable row and a blocker for every blocked row.
 9. Select required browsers, responsive layouts, containers, user states, locales, and failure modes based on the actual change.
-10. Route affected browser journeys to `personal-e2e-tester` and native-container behavior to `personal-webview-tester`; do not duplicate specialist execution when it is not applicable.
+10. Route affected browser journeys to `personal-e2e-tester` and, when `PROJECT.md` enables webview, native-container behavior to `personal-webview-tester`; do not duplicate specialist execution when it is not applicable.
 11. Identify tests that require a human, real device, production-like data, or unavailable credentials.
 12. Update the completion reconciliation with missed items and follow-up tasks.
 

@@ -1,5 +1,7 @@
 # Maintaining Personal AI instructions
 
+Copy-per-repo is the primary way to reuse this workflow: fill `PROJECT.md` (including capability flags for localization, webview, sentry, and figma), edit `ai/source/` as needed, then regenerate. The portable Cursor plugin package under `ai/generated/cursor-plugin/` is optional for local plugin testing; it does not replace copying sources into each repository.
+
 ## Contents
 
 - [Layout](#layout)
@@ -31,9 +33,9 @@ Only this workflow is in scope. Add Android-native/dashboard profiles when their
 
 ## Edit and regenerate
 
-After cloning or pulling AI-source changes, run `node ai/generator/generate.mjs` before starting an AI session. No install hook runs automatically. Generated documentation appears under `docs/ai/`; its tracked source is always available in `ai/source/manual/`.
+After cloning or pulling AI-source changes—or after filling `PROJECT.md` in a new repository copy—run `node ai/generator/generate.mjs` before starting an AI session. Skills and agents treat optional domains as not applicable when the matching `PROJECT.md` flag is off. No install hook runs automatically. Generated documentation appears under `docs/ai/`; its tracked source is always available in `ai/source/manual/`.
 
-Add Cursor rules with frontmatter under `ai/platform-overrides/cursor/rules/`, not in the generated directory. This migration adds no active rule.
+Add Cursor rules with frontmatter under `ai/platform-overrides/cursor/rules/`, not in the generated directory. Approved glob-scoped rules (`project-profile`, `route-files`, `locales`) ship with the workflow; do not add Always Apply rules that duplicate `AGENTS.md`.
 
 Ignored files are not available to remote repository services. Local generation of `.cursor/BUGBOT.md` and `.cursor/config/bugbot.yaml` does not configure hosted Bugbot. A separately verified service-side configuration or publishing arrangement is required; CI generation alone does not make these files visible to Bugbot. Do not assume remote Autofix is disabled from the local YAML.
 

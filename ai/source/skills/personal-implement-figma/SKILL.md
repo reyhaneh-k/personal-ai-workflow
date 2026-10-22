@@ -7,7 +7,7 @@ description: Implement an approved Personal frontend design from a specific Figm
 
 ## Manual context
 
-For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser or Android WebView coverage.
+For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser coverage or webview coverage when `PROJECT.md` enables `webview`.
 
 Required sections: `docs/ai/manual-design.md`, `docs/ai/manual-coding.md`, `docs/ai/manual-localization.md`, `docs/ai/manual-accessibility.md`.
 
@@ -30,7 +30,7 @@ Follow the reading contract in `AGENTS.md`. The required and conditional lists a
 - feature objective and acceptance criteria;
 - Figma file and node URL, or approved exports for every affected breakpoint;
 - required component states and interactions;
-- affected route, user roles, and Android webview applicability.
+- affected route, user roles, and webview applicability when `PROJECT.md` enables `webview`.
 
 ## Integration preflight
 

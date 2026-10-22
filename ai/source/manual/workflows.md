@@ -95,17 +95,17 @@ For persistent working methods, follow `docs/ai/cursor-modes.md`. Keep one task 
 - [ ] Client state and persistence
 - [ ] Authentication and authorization
 - [ ] Loading, empty, partial, error, retry, and success states
-- [ ] Localization, Persian text, RTL, and date/number formatting
+- [ ] Localization, layout direction, and date/number formatting (only when `PROJECT.md` `localization` is on)
 - [ ] Responsive layouts
 - [ ] Browser-specific behavior
-- [ ] Android webview bridge and native feature compatibility
+- [ ] Native webview bridge and container compatibility (only when `PROJECT.md` `webview` is on)
 - [ ] Accessibility and keyboard behavior
 - [ ] Performance and bundle impact
-- [ ] Analytics, telemetry, and Sentry context
+- [ ] Analytics, telemetry, and Sentry context (Sentry only when `PROJECT.md` `sentry` is on)
 - [ ] Unit, integration, and manual tests
 - [ ] Documentation, release, monitoring, and rollback implications
 
-Mark each item applicable, not applicable with a reason, blocked, or planned.
+Mark each item applicable, not applicable with a reason, blocked, or planned. Read capability flags from `PROJECT.md` before assuming optional domains apply.
 
 ## During implementation
 
@@ -119,7 +119,7 @@ Mark each item applicable, not applicable with a reason, blocked, or planned.
 
 Record what completed, changed from plan, was newly discovered, remains unverified, requires follow-up, and still carries risk. Recheck manual-section selection against the final diff; read any newly relevant sections and resolve material gaps before claiming verification.
 
-The implementer writes and runs applicable unit and integration tests for its own work. For every task it separates testing level—unit, integration, browser E2E, and Android webview—from testing purpose—new behavior, regression protection, acceptance verification, defect reproduction, or applicable non-functional evidence. It does not require every level automatically.
+The implementer writes and runs applicable unit and integration tests for its own work. For every task it separates testing level—unit, integration, browser E2E, and webview (when `PROJECT.md` enables it)—from testing purpose—new behavior, regression protection, acceptance verification, defect reproduction, or applicable non-functional evidence. It does not require every level automatically.
 
 After independent review, `personal-test-verifier` independently reconciles the required level-purpose matrix and runs the relevant unit and integration tests using non-watch commands. A verifier must not mark work passed merely because the implementer reported success. A passing new-behavior scenario does not prove regression coverage unless it actually exercises the affected existing behavior. Missing application tests remain an explicit gap.
 
@@ -127,7 +127,7 @@ For Cursor implementation tasks, follow `docs/ai/cursor-review.md`: run Quick Ag
 
 For a difficult reproducible defect whose cause depends on runtime state, use `personal-debugger` before ordinary implementation. Cursor investigations must begin in native Debug Mode using `/debug` or the mode picker. The debugger records hypotheses and runtime evidence, applies only a supported targeted fix, repeats the reproduction, and removes all temporary instrumentation before handoff. Use `personal-fix-bug` directly when the cause is already established and instrumentation would add no value.
 
-Use `personal-e2e-tester` only for affected browser journeys and `personal-webview-tester` only for native-container behavior. These specialists supplement core unit verification; they do not take test ownership away from the implementer.
+Use `personal-e2e-tester` only for affected browser journeys and `personal-webview-tester` only when `PROJECT.md` enables webview and native-container behavior is affected. These specialists supplement core unit verification; they do not take test ownership away from the implementer.
 
 ## Platform test matrix
 
@@ -135,14 +135,14 @@ At minimum consider:
 
 - Chrome 90+, Firefox 90+, Edge 90+, Safari 15+, and iOS Safari 15+;
 - small phone, large phone, tablet, desktop, and wide desktop when applicable;
-- standard browser, Android webview, and installed/PWA-like behavior when affected;
+- standard browser, webview (when enabled), and installed/PWA-like behavior when affected;
 - signed-out, signed-in, and restricted users as applicable;
 - empty, normal, and large data sets;
 - slow response, offline/network failure, and server errors;
-- Persian/RTL, long translations, and keyboard-only navigation.
+- localization / layout direction / long translations when `localization` is on; keyboard-only navigation when interactive UI is affected.
 
 Distinguish tested, passed, failed, blocked, and recommended-for-human-testing. Reconcile the detailed `docs/compatibility-test-checklist.md` when applicable.
 
 ## Continuous Sentry monitoring
 
-The Sentry monitor is separate from implementation. Each run records only a sanitized summary and compares it with the previous summary. It alerts only for new issues, regressions, meaningful volume changes, release correlations, or platform clusters. It must remain paused until every activation gate in `docs/ai/platform-capabilities.md` is complete.
+Apply only when `PROJECT.md` enables `sentry`. The Sentry monitor is separate from implementation. Each run records only a sanitized summary and compares it with the previous summary. It alerts only for new issues, regressions, meaningful volume changes, release correlations, or platform clusters. It must remain paused until every activation gate in `docs/ai/platform-capabilities.md` is complete.

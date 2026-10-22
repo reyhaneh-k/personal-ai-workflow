@@ -2,7 +2,8 @@
 
 ## Scope and ownership
 
-- This repository's scope, stack, owners, and delivery constraints are defined in `PROJECT.md` and the repository's own documentation.
+- `PROJECT.md` is authoritative for this repository's product scope, stack, owners, SCM host, verification commands, and optional capability flags (`localization`, `webview`, `sentry`, `figma`). Manuals under `docs/ai/` stay procedural; do not invent product facts that contradict `PROJECT.md`.
+- Treat optional domains as not applicable when their `PROJECT.md` flag is off (for example skip webview or Sentry steps rather than assuming they exist).
 - The human product owner decides product intent. The designated engineering and release owner decides repository and release controls.
 - Do not infer authority to change other repositories, production systems, or external services.
 
@@ -39,6 +40,18 @@ Use your platform's copies; shared documentation under `docs/ai/` applies to all
 ### Cursor subagent delegation
 
 Use a Cursor subagent only when a distinct phase needs isolated context, independent evidence, or non-overlapping parallel work. Give it a narrow objective, relevant scope, acceptance criteria, constraints, and the exact evidence expected back. Invoke a custom role explicitly when useful, for example `/personal-reviewer`; Cursor may also select a matching role automatically. The next-teammate handoff is a completion recommendation, not an instruction to launch a subagent automatically.
+
+## Next teammate
+
+End completed substantive work with this compact block (do not paste the full chat). `Recommended` must be a role id from `docs/ai/agents.md` that appears in the current role's allowed next teammates, or `none`.
+
+```text
+## Next teammate
+Recommended: <role-id|none>
+Why: <one sentence>
+Evidence: <paths, checks, or links—not full logs>
+Open questions: <none|focused list>
+```
 
 ## Maintaining these instructions
 

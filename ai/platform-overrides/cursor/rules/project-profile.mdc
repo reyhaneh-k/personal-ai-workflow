@@ -1,0 +1,10 @@
+---
+description: Read PROJECT.md capability flags before assuming optional domains
+globs:
+  - "PROJECT.md"
+alwaysApply: false
+---
+
+- Treat `PROJECT.md` as authoritative for product scope, SCM host, verification commands, and capability flags.
+- When `localization`, `webview`, `sentry`, or `figma` is off, mark related checklist steps not applicable instead of inventing stack or integrations.
+- Prefer links to `docs/ai/project-manual.md` and the matching subject manual over copying large procedure text into the chat.

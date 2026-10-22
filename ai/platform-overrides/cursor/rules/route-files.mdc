@@ -1,0 +1,13 @@
+---
+description: Prefer existing route patterns; do not invent architecture
+globs:
+  - "src/routes/**"
+  - "app/**/page.*"
+  - "pages/**"
+alwaysApply: false
+---
+
+- Follow the nearest existing route pattern in this repository.
+- Treat generated route-tree or framework boilerplate as generated output unless the task explicitly changes it.
+- Consult `docs/ai/manual-architecture.md` when route boundaries or navigation contracts change.
+- Confirm path roots against `PROJECT.md` if this project uses different directories.

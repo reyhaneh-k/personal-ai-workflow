@@ -7,7 +7,7 @@ description: Integrate a documented API operation into the this workflow fronten
 
 ## Manual context
 
-For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser or Android WebView coverage.
+For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser coverage or webview coverage when `PROJECT.md` enables `webview`.
 
 Required sections: `docs/ai/manual-api.md`, `docs/ai/manual-state.md`, `docs/ai/manual-security.md`, `docs/ai/manual-testing.md`.
 

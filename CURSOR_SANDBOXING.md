@@ -20,3 +20,12 @@ For unattended Cloud Agents, configure their network, secrets, and repository pe
 ## Hook design
 
 The hooks are intentionally small and dependency-free Node scripts under `.cursor/hooks/`. They do not run formatters, tests, downloads, or telemetry. Hooks run only in trusted workspaces; the project hook file is also supported by Cursor Cloud Agents once they have a writable environment. Keep changes to hook behavior reviewable because hooks can block agent work.
+
+### Fail-closed vs fail-open
+
+`beforeReadFile` and `beforeShellExecution` use `failClosed: true`, so a missing JSON response blocks the action. The sensitive-access guard must therefore **always** emit JSON:
+
+- **Fail closed for secrets:** deny known secret and private-key paths (`.env`, credentials, SSH keys, cloud credential dirs, and similar).
+- **Fail open for infrastructure failure:** on empty stdin, malformed JSON, or an unexpected hook error, emit `{ "permission": "allow" }` so a broken payload cannot freeze ordinary Read/Shell work.
+
+Run `pnpm ai:hook:test` (also included in `pnpm ai:test`) after changing the guard.

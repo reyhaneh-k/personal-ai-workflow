@@ -39,7 +39,7 @@ The policy covers `ai/`, shared instructions, platform configuration and generat
 
 The `ai-validate` job checks generated output and runs tests. The `ai-change-proposal` MR job rejects mixed AI/application changes and requires:
 
-- `AI-Proposal:` same-project GitLab issue URL.
+- `AI-Proposal:` same-project issue/MR URL on the SCM host declared in `PROJECT.md`.
 - `AI-Meeting:` comment URL on that issue recording the team-meeting outcome and agreed scope.
 - `AI-Reason:` concrete explanation.
 - `AI-Validation:` concrete checks and outcomes.
@@ -55,14 +55,14 @@ Local check against committed changes through HEAD:
 node ai/governance/check-proposal.mjs --base <commit-sha> --description <local-description-file> --project-url https://gitlab.khasho.gold/personal/web
 ```
 
-Missing diff evidence fails. This command does not examine uncommitted changes or contact GitLab.
+Missing diff evidence fails. This command does not examine uncommitted changes or contact the remote SCM host.
 
 ### Current status
 
 - Meeting-first instructions, templates, standalone-MR checks, and tests: implemented.
 - No individual AI owner or active CODEOWNERS assignment has been configured.
 - `ai/governance/CODEOWNERS.template` is optional and inactive. Activate only if the team separately agrees to review routing; it cannot replace a meeting.
-- GitLab branch protections, required pipelines, and live rejection tests: unverified. No server settings were changed.
+- SCM branch protections, required pipelines, and live rejection tests: unverified. No server settings were changed.
 
 Repository CI is editable in a branch and is not a tamper-proof authorization gate. Local permissions cannot stop developers editing their own clones. Verify required pipelines and branch protections before calling this technically enforced. Test an AI-only MR with a meeting record, one missing that record, and a mixed AI/application MR.
 

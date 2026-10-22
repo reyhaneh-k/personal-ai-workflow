@@ -1,9 +1,11 @@
 ---
 name: personal-investigate-sentry
-description: Investigate Personal production issues through read-only Sentry API evidence without mutating issues or exposing user data.
+description: Investigate production issues through read-only Sentry API evidence when PROJECT.md enables sentry, without mutating issues or exposing user data.
 ---
 
 # Investigate Sentry
+
+Apply only when `PROJECT.md` enables `sentry`. If sentry is off, report not applicable.
 
 ## Manual context
 

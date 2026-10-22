@@ -1,15 +1,15 @@
 ---
 name: personal-fix-bug
-description: Diagnose and fix a reproducible Personal frontend defect with regression-focused verification.
+description: Diagnose and fix a reproducible frontend defect in this project with regression-focused verification.
 ---
 
-# Fix a Personal frontend bug
+# Fix a frontend bug
 
 Use this workflow when the defect is straightforward or the root cause is already supported by evidence. For a difficult defect that needs instrumentation or runtime-state collection, use `personal-debug` instead; on Cursor that workflow must run in native Debug Mode.
 
 ## Manual context
 
-For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser or Android WebView coverage.
+For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser coverage or native webview coverage when `PROJECT.md` enables webview.
 
 Required sections: `docs/ai/manual-product.md`, `docs/ai/manual-architecture.md`, `docs/ai/manual-testing.md`.
 
@@ -20,10 +20,10 @@ Read these additional sections when their trigger applies:
 - network failures: `docs/ai/manual-api.md`.
 - cache or store defects: `docs/ai/manual-state.md`.
 - auth or private data: `docs/ai/manual-security.md`.
-- RTL or formatting defects: `docs/ai/manual-localization.md`.
+- layout direction or formatting defects when `PROJECT.md` enables localization: `docs/ai/manual-localization.md`.
 - interaction defects: `docs/ai/manual-accessibility.md`.
-- browser/device reproduction: `docs/ai/manual-compatibility.md`.
-- Sentry or logs: `docs/ai/manual-observability.md`.
+- browser/device reproduction: `docs/ai/manual-compatibility.md` (webview only when `PROJECT.md` enables webview).
+- Sentry or logs when `PROJECT.md` enables sentry: `docs/ai/manual-observability.md`.
 - timing or resource symptoms: `docs/ai/manual-performance.md`.
 
 Follow the reading contract in `AGENTS.md`. The required and conditional lists above are authoritative for this skill. Consult `docs/ai/manual-routing.md` only for a mixed task or an impact not covered above. Record selected sections and material gaps in the context manifest; never treat template prompts as approved rules. Read the relevant task-record, readiness, impact, and completion sections of `docs/ai/workflows.md`.
@@ -32,8 +32,8 @@ Follow the reading contract in `AGENTS.md`. The required and conditional lists a
 
 - expected and actual behavior;
 - reproduction steps and affected environment;
-- browser, device, or webview information;
-- evidence such as logs, screenshots, Sentry issue, or failing test.
+- browser, device, or—when `PROJECT.md` enables webview—webview information;
+- evidence such as logs, screenshots, a Sentry issue when `PROJECT.md` enables sentry, or a failing test.
 
 ## Workflow
 
@@ -42,7 +42,7 @@ Follow the reading contract in `AGENTS.md`. The required and conditional lists a
 3. Distinguish the root cause from symptoms and unrelated defects.
 4. Prepare an impact checklist and the level-purpose matrix from `docs/ai/manual-testing.md`. Identify the lowest level that reliably reproduces the defect and every higher-level boundary required by the failure.
 5. Implement the narrowest durable fix without silently changing product behavior.
-6. Add a regression scenario at the lowest reliable level and any required integration, E2E, or webview level. Record an explicit reason when durable automation is not possible.
+6. Add a regression scenario at the lowest reliable level and any required integration, E2E, or—when `PROJECT.md` enables webview—webview level. Record an explicit reason when durable automation is not possible.
 7. Re-run the original scenario and affected adjacent states.
 8. Reconcile the final diff with the initial hypothesis and report residual risk.
 

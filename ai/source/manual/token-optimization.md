@@ -48,7 +48,7 @@ Use repository scripts for generation, context validation, Sentry reads, and tok
 
 ### Explicit handoffs
 
-The final task record and **Next teammate** block carry conclusions, evidence, open questions, and the recommended next role. A teammate should receive the compact record and required artifacts—not the entire conversation copied into a new prompt.
+The final task record and **Next teammate** block from `AGENTS.md` carry conclusions and the recommended next role. Use the shared field names: `Recommended` (role id or `none`), `Why`, `Evidence`, and `Open questions`. A teammate should receive that compact block plus required artifacts—not the entire conversation copied into a new prompt.
 
 ## Developer checklist
 
@@ -82,7 +82,7 @@ The final task record and **Next teammate** block carry conclusions, evidence, o
 - Reconcile the checklist against the final diff rather than rereading unrelated documentation.
 - Run targeted verification first, then broader checks in proportion to impact.
 - Record decisions, evidence, unresolved risks, and relevant manual sections compactly.
-- Recommend at most one next teammate; do not start it automatically.
+- Emit one **Next teammate** block with `Recommended`, `Why`, `Evidence`, and `Open questions`; do not start the teammate automatically.
 - Add reusable guidance to the AI source only after it becomes a verified team decision. Do not preserve one-off chat history as permanent context.
 
 ## Platform-specific checks
