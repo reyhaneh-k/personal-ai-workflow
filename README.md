@@ -2,6 +2,8 @@
 
 A private, reusable AI-workflow template for software repositories. It supplies shared instructions, specialist roles, skills, Cursor plugin packaging, and safety checks for Codex, Cursor, and Claude Code.
 
+Generation is opt-in. Keep this checkout source-only unless a human explicitly requests generated platform files. Agents must not regenerate files automatically after inspection, source edits, installation, or worktree creation. The commands below are available for deliberate manual use.
+
 Start by filling in [PROJECT.md](PROJECT.md). The canonical configuration lives in `ai/source/` and `ai/platform-overrides/`; generated platform files are local-only and must not be edited directly.
 
 Requires Node.js 20.12 or later. No packages are required for generation or verification.

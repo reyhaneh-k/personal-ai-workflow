@@ -1,6 +1,6 @@
 # AI Platform Setup
 
-Before starting an AI session after cloning or pulling AI-source changes, run `node ai/generator/generate.mjs` and `node ai/generator/generate.mjs --check`. Outputs are ignored, not committed. Edit sources under `ai/`; see `ai/README.md` for mappings and recovery.
+Generation is opt-in. Do not generate files automatically before an AI session or after cloning, pulling, installation, or source edits. Keep the checkout source-only until a human explicitly requests generation; then run `node ai/generator/generate.mjs` and `node ai/generator/generate.mjs --check`. Outputs are ignored, not committed. While outputs are absent, inspect canonical files under `ai/source/` directly. Edit sources under `ai/`; see `ai/README.md` for mappings and recovery.
 
 Remote Bugbot cannot read ignored local configuration. Generated Bugbot files support local availability only until a service-side configuration/publishing arrangement is separately verified. CI generation does not configure the hosted bot.
 

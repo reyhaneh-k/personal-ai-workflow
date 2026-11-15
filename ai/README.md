@@ -33,7 +33,7 @@ Only this workflow is in scope. Add Android-native/dashboard profiles when their
 
 ## Edit and regenerate
 
-After cloning or pulling AI-source changes—or after filling `PROJECT.md` in a new repository copy—run `node ai/generator/generate.mjs` before starting an AI session. Skills and agents treat optional domains as not applicable when the matching `PROJECT.md` flag is off. No install hook runs automatically. Generated documentation appears under `docs/ai/`; its tracked source is always available in `ai/source/manual/`.
+Generation is opt-in. Keep the checkout source-only until a human explicitly requests generated platform files. Do not generate automatically after cloning, pulling, filling `PROJECT.md`, editing sources, or creating a worktree. No install or startup hook generates files. The commands in this guide describe deliberate manual operations, not authorization for an agent to run them. While outputs are absent, inspect canonical files under `ai/source/` directly; native skill and teammate discovery is unavailable until generation is explicitly requested. Skills and agents treat optional domains as not applicable when the matching `PROJECT.md` flag is off.
 
 Add Cursor rules with frontmatter under `ai/platform-overrides/cursor/rules/`, not in the generated directory. Approved glob-scoped rules (`project-profile`, `route-files`, `locales`) ship with the workflow; do not add Always Apply rules that duplicate `AGENTS.md`.
 

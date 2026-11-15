@@ -31,7 +31,7 @@ When sources conflict, prefer: explicit human instruction; approved requirements
 
 | Platform | Native skills | Native teammates |
 | --- | --- | --- |
-| Codex | `.agents/skills/` | Use `docs/ai/agents.md` and available delegation |
+| Codex | `.agents/skills/` | Use `docs/ai/teammates.md` and available delegation |
 | Cursor | `.cursor/skills/` | `.cursor/agents/` |
 | Claude Code | `.claude/skills/` | `.claude/agents/` |
 
@@ -43,7 +43,7 @@ Use a Cursor subagent only when a distinct phase needs isolated context, indepen
 
 ## Next teammate
 
-End completed substantive work with this compact block (do not paste the full chat). `Recommended` must be a role id from `docs/ai/agents.md` that appears in the current role's allowed next teammates, or `none`.
+End completed substantive work with this compact block (do not paste the full chat). `Recommended` must be a role id from `docs/ai/teammates.md` that appears in the current role's allowed next teammates, or `none`.
 
 ```text
 ## Next teammate
@@ -55,4 +55,4 @@ Open questions: <none|focused list>
 
 ## Maintaining these instructions
 
-Edit `ai/source/` and platform format settings in `ai/platform-overrides/`. Run `node ai/generator/generate.mjs` and `node ai/generator/generate.mjs --check`. Commit canonical sources and maintained tooling only; generated outputs and `ai/generated-manifest.json` stay local and ignored. Do not edit generated files directly. See `ai/README.md`.
+Edit `ai/source/` and platform format settings in `ai/platform-overrides/`. Generation is opt-in: do not create or restore generated files unless a human explicitly requests generation, including after source edits, installation, or worktree creation. Procedural references to generation are not authorization to run it. When explicitly requested, run `node ai/generator/generate.mjs` and `node ai/generator/generate.mjs --check`. Commit canonical sources and maintained tooling only; generated outputs and `ai/generated-manifest.json` stay local and ignored. Do not edit generated files directly. See `ai/README.md`.

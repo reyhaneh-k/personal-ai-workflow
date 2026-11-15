@@ -42,12 +42,12 @@ Sentry monitor -> read-only health checks -> meaningful-change alert -> human de
 | `.claude/agents/` | Claude-native custom teammates |
 | `docs/ai/project-manual.md` | Manual contents, section templates, and preserved technical baseline |
 | `docs/ai/manual-routing.md` | Required skill reading and cross-cutting impact triggers |
-| `docs/ai/agents.md` | Teammate responsibilities and boundaries |
+| `docs/ai/teammates.md` | Teammate responsibilities and boundaries |
 | `docs/ai/commands.md` | Command catalog and required inputs |
 | `docs/ai/cursor-modes.md` | Persistent working methods, Cursor activation, phase handoffs, and context costs |
 | `docs/ai/cursor-design-mode.md` | Native visual refinement, implementation/validation routing, and local setup |
 | `docs/ai/cursor-browser.md` | Native browser setup, safe sessions, debugging/testing evidence, and coverage fallbacks |
-| `docs/ai/cursor-canvas.md` | Interactive task, review, verification, Sentry, usage, and context reports |
+| `docs/ai/cursor-canvas.md` | Interactive task, review, verification, Sentry, and context reports |
 | `docs/ai/workflows.md` | Before/after checklist and task lifecycle |
 | `docs/ai/governance.md` | Meeting-first proposals and standalone AI-only MRs |
 | `docs/ai/integrations.md` | Figma, Sentry, API docs, GitLab, and Context7 strategy |
@@ -55,7 +55,6 @@ Sentry monitor -> read-only health checks -> meaningful-change alert -> human de
 | `docs/ai/context7.md` | Context7 activation, capacity checks, lookup policy, and web fallback |
 | `docs/ai/platform-setup.md` | Platform-specific installation plan |
 | `docs/ai/platform-capabilities.md` | Installed and authenticated capability checklist |
-| `docs/ai/token-usage.md` | Privacy-safe monthly token reporting schema and review workflow |
 | `docs/ai/token-optimization.md` | Developer practices for reducing context and token waste safely |
 | `docs/ai/credentials.md` | Local AI credential profiles, placement, and validation |
 

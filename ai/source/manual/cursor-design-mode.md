@@ -72,6 +72,6 @@ Record the actual before/after evidence, tested build, and applicable browser/de
 
 Maintain the same review sequence in `docs/ai/cursor-review.md`. Visual refinement and a same-chat validation pass are not independent approval.
 
-For token audits, treat captured images and element details as task context. Targeted visual input may reduce clarification, but makes no guarantee about total cost. Use actual usage evidence and quality results in `docs/ai/token-usage.md`; add no tool-call limits. Prefer the developer's configured model unless a change is requested.
+Treat captured images and element details as task context. Targeted visual input may reduce clarification, but makes no guarantee about total cost. Prefer actual usage evidence and quality results over assumed savings; add no tool-call limits. Prefer the developer's configured model unless a change is requested.
 
 Complete the local Design Mode checks in `docs/ai/platform-capabilities.md`. Repository support is implemented; installed-client activation and behavior remain unverified until exercised there.

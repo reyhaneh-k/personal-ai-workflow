@@ -20,7 +20,6 @@ Required sections below are repeated inside each platform's native skill for dir
 | --- | --- |
 | `personal-context-audit` | Repository AI setup and `docs/ai/token-optimization.md`; no product-manual section |
 | `personal-canvas-report` | `docs/ai/cursor-canvas.md`; no product-manual section for presentation; source workflow readings only for fresh analysis |
-| `personal-token-usage-audit` | `docs/ai/token-usage.md`, `docs/ai/token-optimization.md`; no product-manual section |
 | `personal-task-intake` | `docs/ai/manual-product.md`, `docs/ai/manual-architecture.md` |
 | `personal-feature-delivery` | `docs/ai/manual-product.md`, `docs/ai/manual-architecture.md`, `docs/ai/manual-coding.md`, `docs/ai/manual-testing.md` |
 | `personal-tdd` | `docs/ai/manual-coding.md`, `docs/ai/manual-testing.md` |

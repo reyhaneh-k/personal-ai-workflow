@@ -93,8 +93,8 @@ async function discoverSkills(root, platform) {
 
 async function discoverTeammates(root, platform) {
   if (platform === 'codex') {
-    const catalog = await readOptional(path.join(root, 'docs/ai/agents.md'));
-    return { mode: 'shared role catalog; runtime delegation is platform-managed', paths: catalog === null ? [] : ['docs/ai/agents.md'] };
+    const catalog = await readOptional(path.join(root, 'docs/ai/teammates.md'));
+    return { mode: 'shared role catalog; runtime delegation is platform-managed', paths: catalog === null ? [] : ['docs/ai/teammates.md'] };
   }
   const paths = [];
   for (const relativeRoot of TEAMMATE_ROOTS[platform]) {

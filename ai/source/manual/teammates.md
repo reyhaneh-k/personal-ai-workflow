@@ -1,4 +1,4 @@
-# Teammates and boundaries
+# Teammates
 
 Use these roles for isolated phases that need fresh context or independent evidence. Skill and agent IDs keep the `personal-*` prefix as the workflow brand; product scope comes from `PROJECT.md`. Recommend at most one next teammate; never auto-launch it.
 

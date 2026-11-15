@@ -15,7 +15,7 @@ Read `docs/ai/governance.md`. Default to drafting an AI change proposal using `.
 2. Locate the smallest authoritative document that owns the rule.
 3. Check for conflicts and duplication across project rules, platform rules, skills, agents, and checklists.
 4. Check the recorded team-meeting agreement covers every proposed AI change; return scope expansions to team discussion before encoding them.
-5. Edit the authoritative file under `ai/source/`, or native formatting under `ai/platform-overrides/`. Run `pnpm ai:generate` and `pnpm ai:check`; never hand-edit generated output. See `ai/README.md`.
+5. Edit the authoritative file under `ai/source/`, or native formatting under `ai/platform-overrides/`. Generation is opt-in: only run `pnpm ai:generate` and `pnpm ai:check` when a human explicitly requests generation. Otherwise verify sources without recreating outputs and report that platforms remain unsynchronized. Never hand-edit generated output. See `ai/README.md`.
 6. Keep instructions concise, testable, and scoped. Remove obsolete guidance rather than accumulating exceptions.
 7. Report the evidence, files changed, and any platform that could not be synchronized.
 

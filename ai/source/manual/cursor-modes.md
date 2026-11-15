@@ -62,7 +62,7 @@ The mode maintains readiness, impact checks, testing, and completion discipline.
 
 A mode change does not clear the conversation or make its author an independent reviewer. Use a fresh reviewer context for independent review and supply the requirement, diff/base/revision, relevant source references, test evidence, and unresolved gaps. Verify claims from the actual diff; a same-chat pass is self-review.
 
-At any handoff record the current phase, primary skill, completed checks, remaining gaps, and minimal evidence for the next role. Mode instructions and teammate recommendations do not launch agents or authorize messages. Keep the existing next-teammate routes in `docs/ai/agents.md` and Cursor review sequence in `docs/ai/cursor-review.md`; avoid adding duplicate reviews just because another mode exists. Successful verification may end with `none`.
+At any handoff record the current phase, primary skill, completed checks, remaining gaps, and minimal evidence for the next role. Mode instructions and teammate recommendations do not launch agents or authorize messages. Keep the existing next-teammate routes in `docs/ai/teammates.md` and Cursor review sequence in `docs/ai/cursor-review.md`; avoid adding duplicate reviews just because another mode exists. Successful verification may end with `none`.
 
 ## Cursor subagents
 
@@ -80,7 +80,7 @@ Keep the persistent skill small and reuse unchanged readings already in context.
 
 Exit a mode when its phase ends. This removes the persistence request, but does not promise to erase prior messages or reclaim a specific token amount. The context ring shows current occupancy by category, including rules, skills, tool catalogs, and conversation; it is not a monthly billing meter. [Cursor context usage](https://cursor.com/docs/agent/prompting#context-usage)
 
-For `docs/ai/token-usage.md` audits, compare like-for-like tasks with actual usage evidence and quality results. Note the mode/client used in experiment notes; do not invent token counts or assume a mode guarantees savings. This adds no tool-call caps.
+Compare like-for-like tasks with actual usage evidence and quality results when evaluating modes. Note the mode/client used in experiment notes; do not invent token counts or assume a mode guarantees savings. This adds no tool-call caps. A formal monthly token-usage audit is not part of this workflow.
 
 ## Maintenance and verification
 

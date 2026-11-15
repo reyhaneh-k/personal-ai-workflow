@@ -14,7 +14,7 @@ Cursor canvases are saved interactive artifacts beside chat. Open a result throu
 
 Use `/personal-canvas-report` for the Personal report contract. It selects the layout, source workflow, and formatting, then uses Cursor's built-in `/canvas` capability when available. [Cursor built-in skills](https://cursor.com/docs/skills)
 
-For Personal, use a canvas when it makes a substantial result easier to inspect: linked impacts, many findings, a testing matrix, or comparable usage periods. Small answers can remain text. Load this guide only when producing such a view. The task skill supplies evidence; native Canvas instructions supply rendering. No extra project dependency or always-on mode is needed.
+For Personal, use a canvas when it makes a substantial result easier to inspect: linked impacts, many findings, or a testing matrix. Small answers can remain text. Load this guide only when producing such a view. The task skill supplies evidence; native Canvas instructions supply rendering. No extra project dependency or always-on mode is needed.
 
 Confirm native support in the current client and use its rendering instructions instead of inventing a file format or API. If unavailable, deliver Markdown tables and existing SVG charts, and report that no native canvas was created. Other platforms may use available presentation tools without claiming Cursor compatibility.
 
@@ -28,7 +28,6 @@ The authoritative layout and formatting contract lives in `personal-canvas-repor
 | Peer review | `personal-peer-review` | Exact diff/base/revision and verified findings: severity summary, findings by file/impact, expandable evidence, reviewed scope and gaps |
 | Verification | Task verification / UI validation | Executed checks and reconciled matrices: acceptance coverage, testing level versus purpose, browser/device filters, blocked/not-run cases |
 | Sentry investigation | `personal-investigate-sentry` | Sanitized evidence from the selected MCP/export/API: environment/release/window, issue clusters, measured impact, observations versus hypotheses |
-| Monthly usage | `personal-token-usage-audit` | Existing aggregate CSV/SVG/report outputs: provider/product/month filters, tokens/cost, tool failures/fallbacks, efficiency and measurement coverage |
 | Context audit | `personal-context-audit` | Repository audit plus actual client evidence: available versus loaded instructions, duplicate candidates, measured context categories, unknowns |
 
 Include source references, data/revision window, scope, and material unknowns. Use status text rather than color alone. Diagrams should explain relationships; tables suffice for direct comparisons.
@@ -56,7 +55,6 @@ Short prompts can invoke the packaged workflow directly:
 ```text
 /personal-canvas-report feature from this task record
 /personal-canvas-report verification from these test results
-/personal-canvas-report usage from this month's generated report
 /personal-canvas-report sentry from this sanitized export
 ```
 
@@ -75,19 +73,13 @@ blocked and not-run checks and preserve the evidence-backed task record.
 ```
 
 ```text
-Use personal-token-usage-audit with these approved aggregate exports.
-Render the generated monthly report in a Canvas with provider/month
-filters. Distinguish unknown from zero; keep it unshared.
-```
-
-```text
 Use personal-investigate-sentry with this sanitized export. Show issue
 clusters, evidence, hypotheses, and gaps in a Canvas without new requests.
 ```
 
 ## Cost and verification
 
-Start with the smallest useful view and update it rather than rebuilding every turn. Reuse aggregates and focused evidence references. Rendering consumes tokens; measure its value through actual usage and fewer clarification/review cycles, without promising savings or adding tool-call caps.
+Start with the smallest useful view and update it rather than rebuilding every turn. Reuse focused evidence references. Rendering consumes tokens; measure its value through fewer clarification/review cycles, without promising savings or adding tool-call caps.
 
 Inspect the rendered result when tools allow it, exercise filters, and compare displayed totals/statuses to sources. Check empty/unknown states, provenance, and stale-data labels. Report unverified rendering or interaction honestly. Rendering a canvas is not an application E2E test.
 

@@ -16,8 +16,6 @@ Confirm missing inputs before implementation
 Use narrow searches, reads, and tool results
         ↓
 Implement, verify, and hand off a compact task record
-        ↓
-Review monthly usage against quality and completed work
 ```
 
 ## What the repository already optimizes
@@ -44,7 +42,7 @@ Group related questions. Do not ask for information that can be established safe
 
 ### Deterministic scripts for repeated work
 
-Use repository scripts for generation, context validation, Sentry reads, and token reports instead of repeatedly describing or recreating the procedure in chat. Scripts should return compact structured output and keep credentials outside the repository.
+Use repository scripts for generation, context validation, and Sentry reads instead of repeatedly describing or recreating the procedure in chat. Scripts should return compact structured output and keep credentials outside the repository.
 
 ### Explicit handoffs
 
@@ -120,18 +118,11 @@ The final task record and **Next teammate** block from `AGENTS.md` carry conclus
 - Do not interpret cached tokens as free, estimated usage as exact, or missing provider data as zero.
 - Do not optimize a single task in isolation if it creates more defects, review cycles, or developer effort.
 
-## Monthly improvement loop
+## Continuous efficiency (no formal monthly audit)
 
-Generate the private report described in `docs/ai/token-usage.md`. Compare complete months using stable sources and examine:
+A formal monthly token-usage audit is not part of this workflow. Keep applying the practices above during ordinary work: narrow reads, compact handoffs, one primary skill, and quality-first model choices.
 
-- total, uncached-input, cache-read, output, and reasoning tokens;
-- tokens and cost per completed task;
-- exact versus estimated coverage;
-- tool calls, returned-context tokens, failures, fallbacks, and single-tool attributed usage when available;
-- task mix and model mix;
-- retries, failed attempts, review findings, escaped defects, and cycle time.
-
-Choose one change for the next period. Examples include narrowing a skill's required reading, removing duplicated instructions, batching related reads, improving intake inputs, shortening routine output, or reserving expensive models for tasks that benefit from them. Record the expected benefit and guardrail metric, then keep or revert the change based on the next comparable report.
+When you notice repeated waste (oversized context, duplicated instructions, unnecessary tool dumps), make one focused change—for example narrowing a skill's required reading, removing duplicated instructions, batching related reads, improving intake inputs, or shortening routine output. Judge the change by quality and delivery outcomes, not token totals alone.
 
 ## Optimization proposal template
 
@@ -139,9 +130,8 @@ Choose one change for the next period. Examples include narrowing a skill's requ
 Observed evidence:
 Likely cause:
 Proposed single change:
-Expected token or cost effect:
+Expected efficiency effect:
 Quality and delivery guardrails:
-Measurement period:
 Result and decision:
 ```
 

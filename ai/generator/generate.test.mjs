@@ -19,7 +19,7 @@ test('manual sections and all active skill reading requirements stay aligned', a
     const name = p.split('/')[2], text = outputs.get(p);
     assert.ok(rows.has(name), 'Missing task mapping: ' + name);
     assert.match(text, /## Manual context/);
-    if (!['personal-update-ai-manual', 'personal-context-audit', 'personal-token-usage-audit', 'personal-canvas-report'].includes(name)) {
+    if (!['personal-update-ai-manual', 'personal-context-audit', 'personal-canvas-report'].includes(name)) {
       const required = text.match(/^Required sections: (.+)$/m)?.[1];
       assert.ok(required, 'Missing required sections: ' + name);
       const refs = (s) => [...s.matchAll(/`(docs\/ai\/manual-[a-z-]+\.md)`/g)].map((m) => m[1]).sort();
@@ -27,7 +27,6 @@ test('manual sections and all active skill reading requirements stay aligned', a
       assert.ok(refs(required).length > 0);
     }
     if (name === 'personal-context-audit') assert.match(rows.get(name), /no product-manual section/);
-    if (name === 'personal-token-usage-audit') assert.match(rows.get(name), /token-usage\.md/);
     if (name === 'personal-canvas-report') {
       assert.ok(rows.get(name).includes('`docs/ai/cursor-canvas.md`'));
       assert.ok(text.includes('`docs/ai/cursor-canvas.md`'));
@@ -81,7 +80,6 @@ async function fixture(t) {
   await mkdir(path.join(root, 'scripts/ai'), { recursive: true });
   await writeFile(path.join(root, 'scripts/ai/sentry-readonly.mjs'), '// Fixture reference only\n');
   await writeFile(path.join(root, 'scripts/ai/context-audit.mjs'), '// Fixture reference only\n');
-  await writeFile(path.join(root, 'scripts/ai/token-usage-audit.mjs'), '// Fixture reference only\n');
   await writeFile(path.join(root, 'scripts/ai/load-ai-env.mjs'), '// Fixture reference only\n');
   return root;
 }
@@ -275,7 +273,7 @@ test('Cursor agents receive their scoped native capabilities without leaking the
   assert.doesNotMatch(outputs.get('.claude/agents/personal-reviewer.md'), /`\/review-bugbot`/);
   assert.match(outputs.get('.claude/agents/personal-reviewer.md'), /model: inherit/);
   assert.match(outputs.get('.cursor/agents/personal-test-verifier.md'), /model: composer-2\.5/);
-  assert.match(outputs.get('docs/ai/agents.md'), /Cursor built-ins/);
+  assert.match(outputs.get('docs/ai/teammates.md'), /Cursor built-ins/);
 });
 
 test('recovery restores a missing manifest from marked outputs without taking personal files', async (t) => {
