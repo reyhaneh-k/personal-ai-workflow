@@ -17,7 +17,7 @@ Cursor documents a built-in browser without external installation: navigation, p
 
 ## Developer setup
 
-1. Generate local AI files with `pnpm ai:generate`. Use the existing task skill, not a new browser teammate.
+1. Use the existing task skill, reading its canonical source when generated files are absent. Generate native files only on an explicit human request; see `ai/README.md`.
 2. In Cursor, request a browser check using `@browser` and the relevant Personal workflow. Verify tools are actually available. Do not add a guessed external browser MCP server or token to shared configuration.
 3. Review approval settings under Cursor Settings > Agents > Auto-Run. Keep manual approval initially. Do not broadly auto-approve browser actions to make a test pass.
 4. If enterprise controls block access, ask the administrator to check browser availability and the exact test origins. Do not bypass restrictions with redirects or an alternative tool.

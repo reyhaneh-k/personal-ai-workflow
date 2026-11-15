@@ -22,7 +22,7 @@ Read these additional sections when their trigger applies:
 - bundle or runtime impact: `docs/ai/manual-performance.md`.
 - instrumentation paths: `docs/ai/manual-observability.md`.
 
-Follow the reading contract in `AGENTS.md`. The required and conditional lists above are authoritative for this skill. Consult `docs/ai/manual-routing.md` only for a mixed task or an impact not covered above. Record selected sections and material gaps in the context manifest; never treat template prompts as approved rules. Read the relevant task-record, readiness, impact, and completion sections of `docs/ai/workflows.md`.
+Follow the shared reading contract in `AGENTS.md`. Read the relevant task-record, readiness, impact, and completion sections of `docs/ai/workflows.md`.
 
 ## Required inputs
 

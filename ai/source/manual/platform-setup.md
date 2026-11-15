@@ -13,7 +13,10 @@ Optional nested instructions are generated from `ai/source/scoped-instructions/<
 ### Repository files
 
 - `AGENTS.md`
-- `.agents/skills/<skill>/SKILL.md`
+- `.agents/skills/<skill>/SKILL.md` plus `agents/openai.yaml`
+- `.codex/agents/<role>.toml` (only after explicitly requested generation)
+
+Follow `docs/ai/codex-capabilities.md` for source-only bootstrap, instruction precedence, skill discovery, configuration/trust checks, permissions, native agents, hooks, plugins, review, worktrees, and automation.
 
 ### Planned plugins and connections
 
@@ -26,7 +29,7 @@ Optional nested instructions are generated from `ai/source/scoped-instructions/<
 | Browser testing | Native Codex browser when available | Per developer/runtime |
 | Security audit | Codex Security plugin | Optional later; not a replacement for review |
 
-Codex uses `.agents/skills/` and the common role catalog; Cursor/Claude teammate files are not native Codex agents.
+Codex receives native TOML agents from the common role definitions; Cursor/Claude teammate files are not native Codex agents. The generator never owns personal `.codex/config.toml`, hooks, command rules, authentication, or permission settings.
 
 ## Cursor
 
@@ -99,7 +102,7 @@ For REST and reporting credentials, copy `.env.ai.example` or the restricted `.e
 
 ## Context audit
 
-Run `pnpm ai:context-audit -- --platform <codex|cursor|claude> --repository-only` to verify generated hashes and repository discovery candidates without reading or changing personal settings. Use the `personal-context-audit` skill to add live evidence from the target platform, an active task skill, loaded manual sections, and enabled or used MCP integrations. A repository-only result cannot prove what a running editor session loaded.
+Run `pnpm ai:context-audit -- --platform <codex|cursor|claude> --repository-only` to validate canonical sources, recognize source-only operation, and check existing outputs against both their hashes and current sources without changing personal settings or treating them as generated output. Use the `personal-context-audit` skill to add live evidence from the target platform, an active task skill, loaded manual sections, and enabled or used MCP integrations. A repository-only result cannot prove what a running editor session loaded.
 
 Cursor officially discovers compatible skill locations in addition to `.cursor/skills/`. Because Personal generates independent copies for each platform, the audit reports these as identical duplicate discovery candidates; it does not remove them or assume they consumed full prompt context.
 

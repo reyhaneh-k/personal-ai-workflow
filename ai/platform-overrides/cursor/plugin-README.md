@@ -4,7 +4,7 @@ This package provides the Personal AI AI workflow as a portable Cursor Plugin. I
 
 ## Local development
 
-1. Run `pnpm ai:generate` in the Personal AI repository.
+1. Explicitly request generation of the optional plugin package in the Personal AI repository; see `ai/README.md`.
 2. Copy this generated directory to `~/.cursor/plugins/local/personal-ai-workflow`.
 3. Reload Cursor and confirm the plugin appears in **Customize**.
 

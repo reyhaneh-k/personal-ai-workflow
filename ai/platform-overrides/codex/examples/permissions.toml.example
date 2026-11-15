@@ -1,0 +1,6 @@
+# Alternative inactive example for clients supporting beta permission profiles.
+# Do not combine with sandbox_mode or sandbox_workspace_write in any active layer.
+default_permissions = ":workspace"
+
+# Confirm effective filesystem/network scope and managed allowlists in the client.
+# This example deliberately does not grant additional paths or network access.

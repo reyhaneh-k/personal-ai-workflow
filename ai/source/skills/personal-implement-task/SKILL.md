@@ -7,8 +7,6 @@ description: Implement a ready this workflow frontend task from an approved inta
 
 ## Manual context
 
-For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser coverage or native webview coverage when `PROJECT.md` enables webview.
-
 Required sections: `docs/ai/manual-product.md`, `docs/ai/manual-architecture.md`, `docs/ai/manual-coding.md`, `docs/ai/manual-testing.md`.
 
 Read these additional sections when their trigger applies:
@@ -24,7 +22,7 @@ Read these additional sections when their trigger applies:
 - instrumentation when `PROJECT.md` enables sentry: `docs/ai/manual-observability.md`.
 - loading or resource impact: `docs/ai/manual-performance.md`.
 
-Follow the reading contract in `AGENTS.md`. The required and conditional lists above are authoritative for this skill. Consult `docs/ai/manual-routing.md` only for a mixed task or an impact not covered above. Record selected sections and material gaps in the context manifest; never treat template prompts as approved rules. Read the relevant task-record, readiness, impact, and completion sections of `docs/ai/workflows.md`.
+Follow the shared reading contract in `AGENTS.md`. Read the relevant task-record, readiness, impact, and completion sections of `docs/ai/workflows.md`.
 
 Use only after task intake is `ready` or the human explicitly resolves the recorded blockers.
 

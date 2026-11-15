@@ -7,7 +7,11 @@ description: Assess this project's frontend release health from read-only build,
 
 ## Manual context
 
-Required sections: `docs/ai/manual-delivery.md`. Also require `docs/ai/manual-observability.md` when `PROJECT.md` enables sentry or other observability applies.
+Required sections: `docs/ai/manual-delivery.md`.
+
+Conditional sections (sentry): `docs/ai/manual-observability.md`.
+
+For other observability evidence, read `docs/ai/manual-observability.md` when that scope applies.
 
 Read these additional sections when their trigger applies:
 
@@ -18,7 +22,7 @@ Read these additional sections when their trigger applies:
 - affected user journeys: `docs/ai/manual-product.md`.
 - affected modules: `docs/ai/manual-architecture.md`.
 
-Follow the reading contract in `AGENTS.md`. The required and conditional lists above are authoritative for this skill. Consult `docs/ai/manual-routing.md` only for a mixed task or an impact not covered above. Record selected sections and material gaps in the context manifest; never treat template prompts as approved rules.
+Follow the shared reading contract in `AGENTS.md`.
 
 Require the release identifier, environment, observation window, deployment evidence, and—when `PROJECT.md` enables sentry and production errors are in scope—Sentry access.
 

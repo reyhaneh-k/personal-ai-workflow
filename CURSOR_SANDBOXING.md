@@ -5,7 +5,7 @@ This repository commits a conservative Cursor policy for local agents.
 - `.cursor/sandbox.json` keeps sandboxed commands inside the workspace, requires approval to read outside it, and denies network access by default.
 - `.cursor/permissions.json` allows safe inspection and validation work while sending installs, remote access, Git writes, secrets, background services, and destructive actions to approval.
 - `.cursorignore` reduces accidental inclusion of secrets in AI context. It does **not** restrict terminal or MCP tools, so do not treat it as a security boundary.
-- `.cursor/hooks.json` runs a fail-closed guard before file reads and shell commands. It blocks obvious secret and private-key paths; an edit hook reminds agents that generated guidance must be changed at its canonical source.
+- `.cursor/hooks.json` is currently commented out: no hooks are enabled by this repository configuration. The retained guard and edit-guidance scripts are available for explicit opt-in activation; they do not currently provide hook enforcement.
 
 ## Enable it in Cursor
 
@@ -23,7 +23,7 @@ The hooks are intentionally small and dependency-free Node scripts under `.curso
 
 ### Fail-closed vs fail-open
 
-`beforeReadFile` and `beforeShellExecution` use `failClosed: true`, so a missing JSON response blocks the action. The sensitive-access guard must therefore **always** emit JSON:
+When explicitly enabled with `failClosed: true`, `beforeReadFile` and `beforeShellExecution` block an action on a missing JSON response. The sensitive-access guard must therefore **always** emit JSON:
 
 - **Fail closed for secrets:** deny known secret and private-key paths (`.env`, credentials, SSH keys, cloud credential dirs, and similar).
 - **Fail open for infrastructure failure:** on empty stdin, malformed JSON, or an unexpected hook error, emit `{ "permission": "allow" }` so a broken payload cannot freeze ordinary Read/Shell work.

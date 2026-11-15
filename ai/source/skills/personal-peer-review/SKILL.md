@@ -11,8 +11,6 @@ For an extended review, this same skill can be pinned in Cursor with **Use as Mo
 
 ## Manual context
 
-When presenting results in a Canvas, use the current platform's `personal-canvas-report` skill for the stable layout and formatting contract. Pass completed evidence to it; do not repeat this workflow solely for rendering.
-
 Required sections: `docs/ai/manual-coding.md`, `docs/ai/manual-testing.md`, `docs/ai/manual-delivery.md`.
 
 Read these additional sections when their trigger applies:
@@ -29,7 +27,7 @@ Read these additional sections when their trigger applies:
 - telemetry diff when `PROJECT.md` enables sentry: `docs/ai/manual-observability.md`.
 - resource impact: `docs/ai/manual-performance.md`.
 
-Follow the reading contract in `AGENTS.md`. The required and conditional lists above are authoritative for this skill. Consult `docs/ai/manual-routing.md` only for a mixed task or an impact not covered above. Record selected sections and material gaps in the context manifest; never treat template prompts as approved rules.
+Follow the shared reading contract in `AGENTS.md`.
 
 Read the task requirement and the actual diff. When Cursor Agent Review findings exist, treat them as evidence to verify rather than conclusions to repeat. Do not skip independent inspection because Agent Review or Bugbot reported no findings.
 

@@ -40,15 +40,17 @@ lerna-debug.log*
 .vscode
 .idea
 
-# Local AI outputs and personal platform settings. Edit ai/ sources instead.
+# Local AI outputs and personal platform settings; only five maintained Cursor policy files are committed.
 /.cursor/*
 !/.cursor/permissions.json
 !/.cursor/sandbox.json
 !/.cursor/hooks.json
 !/.cursor/hooks/
-!/.cursor/hooks/*.mjs
+!/.cursor/hooks/guard-sensitive-access.mjs
+!/.cursor/hooks/post-edit-guidance.mjs
 /.claude/
 /.agents/
+/.codex/
 **/AGENTS.md
 /docs/ai/
 /ai/generated-manifest.json

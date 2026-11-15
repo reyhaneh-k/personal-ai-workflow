@@ -24,7 +24,7 @@ Cursor subagent model tiers are defined in `ai/platform-overrides/cursor/adapter
 
 1. Copy this workflow into the target repository (or start from this template).
 2. Fill in [PROJECT.md](PROJECT.md) (identity, SCM host, verification commands, and capability flags).
-3. Run `pnpm ai:generate` (or `node ai/generator/generate.mjs`).
+3. Keep sources only, or explicitly request native files using `pnpm ai:generate` (or `node ai/generator/generate.mjs`).
 4. Confirm Cursor discovers `AGENTS.md`, `.cursor/skills/`, and `.cursor/agents/`.
 5. Disconnect unused MCP servers so their tool schemas do not consume context.
 

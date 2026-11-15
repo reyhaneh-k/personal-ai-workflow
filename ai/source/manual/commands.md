@@ -2,7 +2,7 @@
 
 For interactive Cursor checks, use `@browser` with the existing Personal skill; see [Cursor Browser](cursor-browser.md). Example: "Use personal-test-e2e with @browser to verify this journey on the supplied local URL, using the agreed test account and acceptance criteria; report console/network findings and untested platforms." Supply the real URL, journey, criteria, safe data/state, and required matrix. For visual checks choose `personal-ui-validation`; for runtime defects use `personal-debug` in native Debug Mode. This does not add a custom browser slash command.
 
-Workflows are generated from `ai/source/skills/` as independent copies under `.agents/skills/`, `.cursor/skills/`, and `.claude/skills/`. Run `pnpm ai:generate` after editing source.
+Workflows are generated from `ai/source/skills/` as independent copies under `.agents/skills/`, `.cursor/skills/`, and `.claude/skills/`. Generation is opt-in under `ai/README.md`; source edits do not authorize it.
 
 Slash notation below names workflows. Use the tool's native skill invocation or picker (for example `$personal-fix-bug` in Codex). A skill definition is not a scheduled job.
 
@@ -19,7 +19,7 @@ For visual feedback on the running app, use native [Cursor Design Mode](cursor-d
 | `/personal-task-intake` | Establish context, questions, impact, and readiness | Objective, type, acceptance criteria or product reference | Required + triggered sections in the skill; [map](manual-routing.md) |
 | `/personal-feature-delivery` | Maintain feature delivery across multiple turns | Outcome, criteria, feature owner, relevant sources; resolve intake gaps before edits | Mode sections plus selected implementation skill routing |
 | `/personal-tdd` | Implement with a persistent red-green-refactor cycle | Testable criteria, scope, applicable implementation skill, runnable test setup | Coding/testing plus selected implementation skill routing |
-| `/personal-ui-validation` | Validate UI across states and target platforms | Journey, criteria, approved visual source, runnable environment, browser/device access | Design, testing, compatibility, accessibility, localization plus triggered sections |
+| `/personal-ui-validation` | Validate UI across states and target platforms | Journey, criteria, approved visual source, runnable environment, browser/device access | Design, testing, compatibility, accessibility; localization only when enabled; plus triggered sections |
 | `/personal-implement-task` | Implement approved ordinary frontend work | Ready intake and approved checklist | Required + triggered sections in the skill; [map](manual-routing.md) |
 | `/personal-implement-figma` | Implement an approved design | Figma node/export, states, breakpoints, acceptance criteria | Required + triggered sections in the skill; [map](manual-routing.md) |
 | `/personal-integrate-api` | Integrate a documented API operation | Contract, schemas, auth, errors, cache behavior | Required + triggered sections in the skill; [map](manual-routing.md) |
@@ -29,7 +29,7 @@ For visual feedback on the running app, use native [Cursor Design Mode](cursor-d
 | `/personal-peer-review` | Independently peer-review an MR or local diff without changing it | MR/diff, target branch, requirement, review scope, prior automated findings when available | Required + triggered sections in the skill; [map](manual-routing.md) |
 | `/personal-verify-task` | Reconcile work and create the test matrix | Original checklist and final diff | Required + triggered sections in the skill; [map](manual-routing.md) |
 | `/personal-test-e2e` | Independently exercise affected browser journeys | Acceptance criteria, runnable environment, journey, browser and user/data states | Required + triggered sections in the skill; [map](manual-routing.md) |
-| `/personal-test-webview` | Independently verify Android webview and native bridge behavior | Acceptance criteria, bridge contract, Android build/device matrix, frontend environment | Required + triggered sections in the skill; [map](manual-routing.md) |
+| `/personal-test-webview` | Independently verify enabled native webview and bridge behavior | Acceptance criteria, bridge contract, confirmed native platform and build/device matrix, frontend environment | Required + triggered sections in the skill; [map](manual-routing.md) |
 | `/personal-prepare-mr` | Prepare MR content and GitLab creation link | Source/target branch, title, summary, checks | Required + triggered sections in the skill; [map](manual-routing.md) |
 | `/personal-investigate-sentry` | Investigate production evidence read-only | Issue/query, org, project, environment, time range | Required + triggered sections in the skill; [map](manual-routing.md) |
 | `/personal-release-health` | Assess a release from build/deployment/Sentry evidence | Release, environment, window, baseline | Required + triggered sections in the skill; [map](manual-routing.md) |

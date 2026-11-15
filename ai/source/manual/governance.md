@@ -27,9 +27,9 @@ The record documents the team's agreement, not one person's permission. A propos
 
 - Use a dedicated AI-change branch and the **AI_change** MR template.
 - Never combine AI changes with application code, assets, translations, dependency updates, or unrelated project changes. Separate commits within one MR are not sufficient: use separate MRs.
-- Commit canonical sources only, together with directly related AI generators, checks, and templates. Regenerate locally for verification; platform copies, generated documentation, and the local manifest must not be committed.
+- Commit canonical sources only, together with directly related AI generators, checks, and templates. Validate sources without writing outputs; generate locally only when explicitly requested under `ai/README.md`; platform copies, generated documentation, and the local manifest must not be committed.
 - Shared CI, ownership, root README, or ignore files may change only for the AI workflow in that MR. Reviewers must check line-level purpose; path checks alone cannot establish it.
-- Link the proposal and meeting outcome, regenerate outputs, run checks, and document rollback.
+- Link the proposal and meeting outcome, run source checks, and document rollback. Output generation remains opt-in under `ai/README.md`.
 - Review the final diff against the meeting agreement and follow the repository's normal review/merge requirements. This policy adds no named individual owner or special personal approval requirement.
 - Merge only when the recorded scope matches, the MR stands alone, and required checks pass.
 

@@ -1,0 +1,7 @@
+{
+  "personal-project-orientation": {
+    "policy": {
+      "allow_implicit_invocation": false
+    }
+  }
+}

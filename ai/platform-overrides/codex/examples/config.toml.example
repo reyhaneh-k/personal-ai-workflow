@@ -1,0 +1,13 @@
+# Inactive example. Review explicitly before copying to a trusted .codex/config.toml.
+# Preserve user model/provider choices and managed requirements.
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+project_doc_max_bytes = 32768
+
+[sandbox_workspace_write]
+network_access = false
+
+[agents]
+max_concurrent_threads_per_session = 4
+
+# MCP credentials, hook trust, scheduling, and plugin installation are separate.

@@ -20,7 +20,7 @@ Read when: Planning checks, adding tests, reviewing coverage, or claiming comple
 
 Testing **level** and testing **purpose** are separate decisions.
 
-- Level identifies the technical scope being exercised: unit, integration, browser E2E, or Android webview.
+- Level identifies the technical scope being exercised: unit, integration, browser E2E, or Native webview.
 - Purpose identifies why the check exists: new behavior, regression protection, acceptance verification, defect reproduction, or another task-specific objective.
 - Regression testing is not a separate level. A regression check can exist at every applicable level.
 - Do not require every level for every task. Select the smallest set that gives reliable evidence for the changed behavior and affected boundaries.
@@ -30,10 +30,10 @@ Testing **level** and testing **purpose** are separate decisions.
 
 | Level | Scope | Primary responsibility | Current repository status |
 | --- | --- | --- | --- |
-| Unit | An isolated function, hook, component behavior, formatter, validator, or other bounded unit | Implementer writes it; test verifier independently runs it | Vitest is configured, but application unit tests are not yet established |
-| Integration | Interactions across components, hooks, stores, router, query/cache, API adapters, persistence, or other boundaries | Implementer writes it; test verifier independently runs it | No approved integration-test convention or established application suite yet |
-| Browser E2E | A complete user journey in a supported browser | E2E tester executes it; implementer may add harness tests when a harness is approved | Platform browser testing is available; no committed Playwright/Cypress harness is established |
-| Android webview | Frontend behavior that depends on the Android container or native bridge | Webview tester executes it with emulator or real-device evidence | Requires the confirmed bridge contract and device/emulator access |
+| Unit | An isolated function, hook, component behavior, formatter, validator, or other bounded unit | Implementer writes it; test verifier independently runs it | Verify the runner and tests from `PROJECT.md` and current package scripts; do not assume a framework |
+| Integration | Interactions across components, hooks, stores, router, query/cache, API adapters, persistence, or other boundaries | Implementer writes it; test verifier independently runs it | Verify existing tests, fixtures, and repository conventions |
+| Browser E2E | A complete user journey in a supported browser | E2E tester executes it; implementer may add harness tests when a harness is approved | Verify approved browser tooling and any committed harness in the target repository |
+| Native webview | Frontend behavior that depends on the confirmed native container or native bridge | Webview tester executes it with emulator or real-device evidence | Only when webview is enabled; requires the confirmed native platform, bridge contract, and device/emulator access |
 
 Static checks, builds, linting, type checks, screenshots, and code review provide useful evidence but are not substitutes for these behavioral levels.
 
@@ -58,7 +58,7 @@ Every implementation task must plan and reconcile this matrix. Add rows for dist
 | Unit | applicable / not applicable | applicable / not applicable | yes / no | passed / failed / blocked / not run / not applicable | Test file and command, or reason |
 | Integration | applicable / not applicable | applicable / not applicable | yes / no | passed / failed / blocked / not run / not applicable | Test file and command, or reason |
 | Browser E2E | applicable / not applicable | applicable / not applicable | harness / agent browser / manual / no | passed / failed / blocked / not run / not applicable | Journey, browser, and evidence, or reason |
-| Android webview | applicable / not applicable | applicable / not applicable | harness / emulator / device / manual / no | passed / failed / blocked / not run / not applicable | Build/device/bridge evidence, or reason |
+| Native webview | applicable / not applicable | applicable / not applicable | harness / emulator / device / manual / no | passed / failed / blocked / not run / not applicable | Build/device/bridge evidence, or reason |
 
 `Not applicable` requires a concrete scope reason. `Not run` means the check was applicable but was not executed. `Blocked` requires the blocking dependency or access. Neither status is a pass.
 
@@ -69,7 +69,7 @@ For each task, choose levels using the changed behavior, affected boundaries, fa
 - Pure deterministic logic normally needs unit coverage for new behavior and affected regressions.
 - Component, hook, router, store, query/cache, API-adapter, or persistence interactions normally need integration coverage in addition to focused unit coverage where useful.
 - Complete navigation, authentication, transaction-like, or multi-step user journeys normally need browser E2E evidence.
-- Native bridge, lifecycle, permission, back-navigation, download/upload, deep-link, or container-only behavior needs Android webview evidence; desktop browser emulation is insufficient.
+- Native bridge, lifecycle, permission, back-navigation, download/upload, deep-link, or container-only behavior needs Native webview evidence; desktop browser emulation is insufficient.
 - A bug fix needs a regression scenario at the lowest level that reliably reproduces it, plus any higher level required by the failure boundary.
 
 - Approved guidance: the level-versus-purpose model above.

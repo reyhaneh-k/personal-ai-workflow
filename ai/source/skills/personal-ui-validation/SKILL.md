@@ -9,11 +9,9 @@ Use for sustained validation across screens, states, or platforms. In Cursor thi
 
 ## Manual context
 
-For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser coverage or native webview coverage when `PROJECT.md` enables webview.
+Required sections: `docs/ai/manual-design.md`, `docs/ai/manual-testing.md`, `docs/ai/manual-compatibility.md`, `docs/ai/manual-accessibility.md`.
 
-When presenting results in a Canvas, use the current platform's `personal-canvas-report` skill for the stable layout and formatting contract. Pass completed evidence to it; do not repeat this workflow solely for rendering.
-
-Required sections: `docs/ai/manual-design.md`, `docs/ai/manual-testing.md`, `docs/ai/manual-compatibility.md`, `docs/ai/manual-accessibility.md`. Also require `docs/ai/manual-localization.md` when `PROJECT.md` enables localization.
+Conditional sections (localization): `docs/ai/manual-localization.md`.
 
 Read `docs/ai/manual-product.md` for behavior/acceptance questions, `docs/ai/manual-api.md` and `docs/ai/manual-state.md` for response/cache scenarios, `docs/ai/manual-security.md` for restricted users or private data, and `docs/ai/manual-performance.md` for explicit performance criteria. Follow `AGENTS.md` and the task-record, impact, and completion sections of `docs/ai/workflows.md`. Reuse unchanged context; consult `docs/ai/manual-routing.md` only for an unmapped impact.
 

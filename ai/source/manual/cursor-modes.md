@@ -84,6 +84,6 @@ Compare like-for-like tasks with actual usage evidence and quality results when 
 
 ## Maintenance and verification
 
-Edit the three new workflow skills plus the existing debug and peer-review skills in `ai/source/skills/`; generate independent native copies with `pnpm ai:generate`. Manual routes are tracked in `docs/ai/manual-routing.md`. No separate mode registry or automatic phase-switching hook is required.
+Edit the three new workflow skills plus the existing debug and peer-review skills in `ai/source/skills/`; generate independent native copies only when a human explicitly requests generation under `ai/README.md`. Manual routes are tracked in `docs/ai/manual-routing.md`. No separate mode registry or automatic phase-switching hook is required.
 
 Use `pnpm ai:check` and `pnpm ai:test` for repository checks. Locally verify skill discovery, activation badge, behavior over a follow-up, exit, and native Debug compatibility using the checklist in `docs/ai/platform-capabilities.md`. Repository validation cannot prove that Cursor has loaded or activated a mode.

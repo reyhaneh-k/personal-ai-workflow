@@ -1,0 +1,8 @@
+# Inactive example; not discovered from this directory.
+prefix_rule(
+    pattern = ["git", "push"],
+    decision = "prompt",
+    justification = "Repository publishing requires an explicit human decision.",
+    match = ["git push origin main"],
+    not_match = ["git status", "git diff"],
+)

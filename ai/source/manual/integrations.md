@@ -81,7 +81,7 @@ For a library-dependent question:
 6. if Context7 is disabled, unauthenticated, exhausted, rate-limited, unavailable, lacks the library/version, or returns insufficient evidence, use web search against official versioned library documentation and other primary sources;
 7. report whether Context7 or web search supplied the evidence and note any version mismatch.
 
-Context7 quotas are request allowances, not model tokens. Do not claim remaining capacity when neither the usage endpoint, dashboard, response headers, nor a successful request establishes it. Do not retry a rate-limited request repeatedly. Record Context7 calls, returned-context tokens when measurable, failures, and web fallbacks in the tool-usage audit.
+Context7 quotas are request allowances, not model tokens. Do not claim remaining capacity when neither the usage endpoint, dashboard, response headers, nor a successful request establishes it. Do not retry a rate-limited request repeatedly. Record material failures and web fallbacks in the current task evidence.
 
 See `docs/ai/context7.md` for activation and verification on Codex, Cursor, and Claude Code.
 

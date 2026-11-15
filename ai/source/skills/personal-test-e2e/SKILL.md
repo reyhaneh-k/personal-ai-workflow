@@ -7,8 +7,6 @@ description: Independently test an affected browser journey in this project's fr
 
 ## Manual context
 
-For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser coverage or native webview coverage when `PROJECT.md` enables webview.
-
 Required sections: `docs/ai/manual-testing.md`, `docs/ai/manual-compatibility.md`.
 
 Read these additional sections when their trigger applies:
@@ -24,7 +22,7 @@ Read these additional sections when their trigger applies:
 - telemetry expectations when `PROJECT.md` enables sentry: `docs/ai/manual-observability.md`.
 - performance criteria: `docs/ai/manual-performance.md`.
 
-Follow the reading contract in `AGENTS.md`. The required and conditional lists above are authoritative for this skill. Consult `docs/ai/manual-routing.md` only for a mixed task or an impact not covered above. Record selected sections and material gaps in the context manifest.
+Follow the shared reading contract in `AGENTS.md`.
 
 ## Inputs
 

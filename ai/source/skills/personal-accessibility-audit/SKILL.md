@@ -7,8 +7,6 @@ description: Audit an affected frontend flow in this project for concrete access
 
 ## Manual context
 
-For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser coverage or native webview coverage when `PROJECT.md` enables webview.
-
 Required sections: `docs/ai/manual-accessibility.md`, `docs/ai/manual-design.md`, `docs/ai/manual-compatibility.md`.
 
 Read these additional sections when their trigger applies:
@@ -18,7 +16,7 @@ Read these additional sections when their trigger applies:
 - test tooling/evidence: `docs/ai/manual-testing.md`.
 - shared component consumers: `docs/ai/manual-architecture.md`.
 
-Follow the reading contract in `AGENTS.md`. The required and conditional lists above are authoritative for this skill. Consult `docs/ai/manual-routing.md` only for a mixed task or an impact not covered above. Record selected sections and material gaps in the context manifest; never treat template prompts as approved rules.
+Follow the shared reading contract in `AGENTS.md`.
 
 Audit only the requested or changed surface. Inspect semantic structure, accessible names, keyboard order, focus visibility and restoration, dialogs, forms, errors, live updates, contrast, zoom/reflow, reduced motion, layout-direction behavior when `PROJECT.md` enables localization, and screen-reader semantics as applicable.
 

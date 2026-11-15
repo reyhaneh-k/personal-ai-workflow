@@ -13,8 +13,8 @@ const repo = fileURLToPath(new URL('../../', import.meta.url));
 test('manual sections and all active skill reading requirements stay aligned', async () => {
   const outputs = await render(repo);
   const map = outputs.get('docs/ai/manual-routing.md');
-  const rows = new Map([...map.matchAll(/^\| `([^`]+)` \| (.+) \|$/gm)].map((m) => [m[1], m[2]]));
-  const active = [...outputs.keys()].filter((p) => p.startsWith('.agents/skills/') && !p.includes('personal-project-orientation'));
+  const rows = new Map([...map.matchAll(/^\| `([^`]+)` \| ([^|]+) \| ([^|]+) \|$/gm)].map((m) => [m[1], m[2]]));
+  const active = [...outputs.keys()].filter((p) => p.startsWith('.agents/skills/') && p.endsWith('/SKILL.md') && !p.includes('personal-project-orientation'));
   for (const p of active) {
     const name = p.split('/')[2], text = outputs.get(p);
     assert.ok(rows.has(name), 'Missing task mapping: ' + name);
@@ -26,7 +26,7 @@ test('manual sections and all active skill reading requirements stay aligned', a
       assert.deepEqual(refs(required), refs(rows.get(name)), 'Required map drift: ' + name);
       assert.ok(refs(required).length > 0);
     }
-    if (name === 'personal-context-audit') assert.match(rows.get(name), /no product-manual section/);
+    if (name === 'personal-context-audit') assert.match(rows.get(name), /platform-setup/);
     if (name === 'personal-canvas-report') {
       assert.ok(rows.get(name).includes('`docs/ai/cursor-canvas.md`'));
       assert.ok(text.includes('`docs/ai/cursor-canvas.md`'));
@@ -48,6 +48,25 @@ test('manual sections and all active skill reading requirements stay aligned', a
     assert.match(text, /Source or reviewed example/);
     assert.ok(active.some((skill) => outputs.get(skill).includes('`' + p + '`')), 'Unrouted section: ' + p);
   }
+});
+
+test('catalogs follow source reading lists and role metadata without writing outputs', async (t) => {
+  const root = await fixture(t);
+  const skillPath = path.join(root, 'ai/source/skills/personal-prepare-mr/SKILL.md');
+  await writeFile(skillPath, (await readFile(skillPath, 'utf8')).replace(
+    'Required sections: `docs/ai/manual-delivery.md`.', 'Required sections: `docs/ai/manual-testing.md`.'));
+  const rolePath = path.join(root, 'ai/source/agents/personal-reviewer.json');
+  const role = JSON.parse(await readFile(rolePath, 'utf8'));
+  role.nextTeammates = ['personal-debugger'];
+  await writeFile(rolePath, JSON.stringify(role));
+  const outputs = await render(root);
+  assert.match(outputs.get('docs/ai/manual-routing.md'), /\| `personal-prepare-mr` \| `docs\/ai\/manual-testing.md` \|/);
+  assert.match(outputs.get('docs/ai/manual-routing.md'), /\| `personal-ui-validation` .*localization=on: `docs\/ai\/manual-localization.md`/);
+  const reviewerRow = outputs.get('docs/ai/teammates.md').split('\n').find((line) => line.startsWith('| `personal-reviewer`'));
+  assert.match(reviewerRow, /`personal-debugger`, `none`/);
+  assert.doesNotMatch(reviewerRow, /personal-frontend-implementer/);
+  await assert.rejects(access(path.join(root, 'AGENTS.md')), { code: 'ENOENT' });
+  await assert.rejects(access(path.join(root, 'ai/generated-manifest.json')), { code: 'ENOENT' });
 });
 
 test('Figma and Sentry skills expose human-selected access and capacity fallbacks on every platform', async () => {
@@ -146,7 +165,9 @@ test('browser guidance is delivered to every platform and missing guidance block
   for (const name of skills) {
     for (const platform of ['.agents', '.cursor', '.claude']) {
       const p = platform + '/skills/' + name + '/SKILL.md';
-      assert.ok(outputs.get(p).includes('`docs/ai/cursor-browser.md`'), 'Missing browser routing: ' + p);
+      assert.ok(outputs.get('AGENTS.md').includes('`docs/ai/reading-contract.md`'));
+      assert.ok(outputs.get('docs/ai/reading-contract.md').includes('`docs/ai/cursor-browser.md`'));
+      assert.ok(!outputs.get(p).includes('For interactive browser execution in Cursor,'), 'Duplicated browser procedure: ' + p);
       assert.equal(await readFile(path.join(root, p), 'utf8'), outputs.get(p));
     }
   }
@@ -276,6 +297,61 @@ test('Cursor agents receive their scoped native capabilities without leaking the
   assert.match(outputs.get('docs/ai/teammates.md'), /Cursor built-ins/);
 });
 
+test('Codex receives native inherited agents and isolated skill invocation metadata', async () => {
+  const outputs = await render(repo);
+  const agentPaths = [...outputs.keys()].filter((file) => file.startsWith('.codex/agents/'));
+  assert.equal(agentPaths.length, 8);
+  const reviewer = outputs.get('.codex/agents/personal-reviewer.toml');
+  assert.match(reviewer, /^# GENERATED/);
+  const fields = Object.fromEntries(reviewer.split('\n').filter((line) => /^[a-z_]+ = /.test(line))
+    .map((line) => { const end = line.indexOf(' = '); return [line.slice(0, end), JSON.parse(line.slice(end + 3))]; }));
+  assert.equal(fields.name, 'personal-reviewer');
+  assert.match(fields.developer_instructions, /read-only reviewer/);
+  assert.match(fields.developer_instructions, /Inherit parent permissions/);
+  assert.doesNotMatch(reviewer, /^(model|sandbox_mode|approval_policy|model_provider) = /m);
+  const metadata = (name) => JSON.parse(outputs.get('.agents/skills/' + name + '/agents/openai.yaml').replace(/^#.*\n/, ''));
+  assert.equal(metadata('personal-project-orientation').policy.allow_implicit_invocation, false);
+  assert.equal(metadata('personal-fix-bug').policy.allow_implicit_invocation, true);
+  assert.ok(metadata('personal-fix-bug').interface.display_name);
+  assert.equal(outputs.has('.claude/skills/personal-fix-bug/agents/openai.yaml'), false);
+  assert.equal(outputs.has('.cursor/skills/personal-fix-bug/agents/openai.yaml'), false);
+  for (const file of ['.codex/config.toml', '.codex/hooks.json', '.codex/rules/default.rules']) assert.equal(outputs.has(file), false);
+});
+
+test('Codex overrides preserve parent authority and support declared metadata dependencies', async (t) => {
+  const root = await fixture(t);
+  const adapterPath = path.join(root, 'ai/platform-overrides/codex/adapter.json');
+  const adapter = JSON.parse(await readFile(adapterPath, 'utf8'));
+  adapter.agentOverrides = { 'personal-reviewer': { model: 'test-model', model_reasoning_effort: 'high',
+    model_reasoning_summary: 'concise', model_verbosity: 'low', features: { apps: false },
+    skills: { config: [{ name: 'unneeded-skill', enabled: false }], bundled: { enabled: false } } } };
+  await writeFile(adapterPath, JSON.stringify(adapter));
+  const metadataPath = path.join(root, 'ai/platform-overrides/codex/skill-metadata.json');
+  const overrides = JSON.parse(await readFile(metadataPath, 'utf8'));
+  overrides['personal-fix-bug'] = { dependencies: { tools: [{ type: 'mcp', value: 'docs', description: 'An explicitly selected documentation source' }] } };
+  await writeFile(metadataPath, JSON.stringify(overrides));
+  const outputs = await render(root);
+  assert.match(outputs.get('.codex/agents/personal-reviewer.toml'), /model = "test-model"/);
+  assert.match(outputs.get('.codex/agents/personal-reviewer.toml'), /\[features\]\napps = false/);
+  assert.match(outputs.get('.codex/agents/personal-reviewer.toml'), /\[\[skills.config\]\]\nname = "unneeded-skill"\nenabled = false/);
+  assert.match(outputs.get('.codex/agents/personal-reviewer.toml'), /model_reasoning_summary = "concise"/);
+  const metadata = JSON.parse(outputs.get('.agents/skills/personal-fix-bug/agents/openai.yaml').replace(/^#.*\n/, ''));
+  assert.equal(metadata.dependencies.tools[0].value, 'docs');
+  adapter.agentOverrides['personal-reviewer'].sandbox_mode = 'danger-full-access';
+  await writeFile(adapterPath, JSON.stringify(adapter));
+  await assert.rejects(render(root), /Unsupported Codex role override/);
+  delete adapter.agentOverrides['personal-reviewer'].sandbox_mode;
+  adapter.agentOverrides['personal-reviewer'].features.apps = true;
+  await writeFile(adapterPath, JSON.stringify(adapter));
+  await assert.rejects(render(root), /may only disable/);
+  adapter.agentOverrides['personal-reviewer'].features.apps = false;
+  await writeFile(adapterPath, JSON.stringify(adapter));
+  overrides['personal-fix-bug'] = { policy: { allow_implicit_invocation: 'false' } };
+  await writeFile(metadataPath, JSON.stringify(overrides));
+  await assert.rejects(render(root), /Invalid Codex skill metadata/);
+  await assert.rejects(access(path.join(root, '.codex/agents/personal-reviewer.toml')), { code: 'ENOENT' });
+});
+
 test('recovery restores a missing manifest from marked outputs without taking personal files', async (t) => {
   const root = await fixture(t);
   await generate(root);
@@ -393,7 +469,13 @@ test('obsolete outputs are removed only when unchanged', async (t) => {
   await access(path.join(root, '.cursor/skills/personal-accessibility-audit/SKILL.md'));
   await writeFile(path.join(root, edited), original);
   const result = await generate(root);
-  assert.equal(result.changes.filter((s) => s.startsWith('remove ')).length, 4);
+  assert.deepEqual(result.changes.filter((s) => s.startsWith('remove ')).sort(), [
+    'remove .agents/skills/personal-accessibility-audit/SKILL.md',
+    'remove .agents/skills/personal-accessibility-audit/agents/openai.yaml',
+    'remove .claude/skills/personal-accessibility-audit/SKILL.md',
+    'remove .cursor/skills/personal-accessibility-audit/SKILL.md',
+    'remove ai/generated/cursor-plugin/skills/personal-accessibility-audit/SKILL.md',
+  ].sort());
   await assert.rejects(access(path.join(root, edited)));
 });
 

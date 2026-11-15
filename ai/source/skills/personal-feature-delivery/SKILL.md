@@ -9,8 +9,6 @@ Use as the persistent working method for a substantial feature. In Cursor, the d
 
 ## Manual context
 
-When presenting results in a Canvas, use the current platform's `personal-canvas-report` skill for the stable layout and formatting contract. Pass completed evidence to it; do not repeat this workflow solely for rendering.
-
 Required sections: `docs/ai/manual-product.md`, `docs/ai/manual-architecture.md`, `docs/ai/manual-coding.md`, `docs/ai/manual-testing.md`.
 
 Follow the reading contract in `AGENTS.md` and the task record, readiness, impact, and completion sections of `docs/ai/workflows.md`. Load `personal-implement-task` from the current platform for its conditional manual routing and implementation procedure. Additionally load `personal-implement-figma` for design translation, `personal-integrate-api` for endpoint integration, or `personal-refactor` for an explicitly scoped restructuring. Read only applicable skills and their required/triggered sections; reuse unchanged context. For an unmapped impact consult `docs/ai/manual-routing.md`.

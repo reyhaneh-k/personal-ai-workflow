@@ -7,9 +7,11 @@ description: Audit which Personal AI instructions, skills, teammates, manual sec
 
 ## Manual context
 
-When presenting results in a Canvas, use the current platform's `personal-canvas-report` skill for the stable layout and formatting contract. Pass completed evidence to it; do not repeat this workflow solely for rendering.
+Required sections: `docs/ai/platform-setup.md`, `docs/ai/platform-capabilities.md`, `docs/ai/token-optimization.md`.
 
-This is a repository-AI setup check. It does not load product-manual sections. Read `docs/ai/platform-setup.md`, `docs/ai/platform-capabilities.md`, and `docs/ai/token-optimization.md` only.
+For Codex, also read `docs/ai/codex-capabilities.md` for scoped discovery and sanitized runtime evidence.
+
+This repository-AI setup check needs no product-manual sections. Source-only is a valid repository state, not proof of native discovery.
 
 Use this before a high-impact task, after regenerating AI files, or when a platform appears to ignore or duplicate instructions.
 
@@ -18,8 +20,8 @@ Use this before a high-impact task, after regenerating AI files, or when a platf
 3. Collect live evidence from the platform:
    - Cursor: inspect Customize > Skills and the current context view. Cursor can discover its native skill location plus compatibility locations, so report same-name candidates explicitly. See `docs/ai/platform-setup.md` for the concrete locations.
    - Claude Code: inspect `/context`, `/agents`, and `/mcp`.
-   - Codex: use the current session's displayed instructions, available skills, and connected tools. If the client does not expose a fact, record it as unknown.
-4. Put observed facts in a temporary JSON file outside tracked project files. Include `evidenceSource` and only claims the platform actually exposed. Supported fields are `agentsLoaded`, `agentsHash`, `discoveredSkills`, `activeSkill`, `manualSections`, `enabledMcp`, `usedMcp`, `contextSources`, and `usedContextSources`.
+   - Codex: use the current session's displayed instructions, available skills, connected tools, and sanitized configuration evidence. Pass `--working-directory` for scoped discovery; user-scope files require `--include-user` and external linked skills require explicit read scope. If the client does not expose a fact, record it as unknown.
+4. Put observed facts in a temporary JSON file outside tracked project files. Include `evidenceSource` and only claims the platform actually exposed. The optional `codex` object is defined in `docs/ai/codex-capabilities.md`; it records sanitized effective settings and loaded instruction paths. Other supported fields are `agentsLoaded`, `agentsHash`, `discoveredSkills`, `activeSkill`, `manualSections`, `enabledMcp`, `usedMcp`, `contextSources`, and `usedContextSources`.
 5. Run the task audit with `--runtime <file>`, `--active-skill <name>`, and one `--manual <path>` per section already loaded. Never claim loaded context from model recollection alone.
 6. Report `healthy`, `warning`, or `invalid`, distinguish identical duplicates from conflicting copies, and explain unknowns. Recommend corrections, but do not apply platform configuration changes without an explicit request.
 

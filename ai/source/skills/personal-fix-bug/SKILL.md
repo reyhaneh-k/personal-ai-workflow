@@ -9,8 +9,6 @@ Use this workflow when the defect is straightforward or the root cause is alread
 
 ## Manual context
 
-For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser coverage or native webview coverage when `PROJECT.md` enables webview.
-
 Required sections: `docs/ai/manual-product.md`, `docs/ai/manual-architecture.md`, `docs/ai/manual-testing.md`.
 
 Read these additional sections when their trigger applies:
@@ -26,7 +24,7 @@ Read these additional sections when their trigger applies:
 - Sentry or logs when `PROJECT.md` enables sentry: `docs/ai/manual-observability.md`.
 - timing or resource symptoms: `docs/ai/manual-performance.md`.
 
-Follow the reading contract in `AGENTS.md`. The required and conditional lists above are authoritative for this skill. Consult `docs/ai/manual-routing.md` only for a mixed task or an impact not covered above. Record selected sections and material gaps in the context manifest; never treat template prompts as approved rules. Read the relevant task-record, readiness, impact, and completion sections of `docs/ai/workflows.md`.
+Follow the shared reading contract in `AGENTS.md`. Read the relevant task-record, readiness, impact, and completion sections of `docs/ai/workflows.md`.
 
 ## Required inputs
 

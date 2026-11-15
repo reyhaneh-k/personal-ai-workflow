@@ -9,7 +9,7 @@
 
 ## Required workflow
 
-1. Select the most specific skill from the current platform's directory.
+1. Select the most specific skill from the current platform's directory and follow `docs/ai/reading-contract.md` once per task. When outputs are absent, read the corresponding canonical sources directly.
 2. Inspect the repository and nearby patterns before proposing an abstraction or implementation.
 3. Record the primary skill, consulted sources, inspected scope, exclusions, evidence, and material gaps for substantive work.
 4. Ask a focused question when a missing product, design, API, permission, security, or release decision would materially change the result.
@@ -31,7 +31,7 @@ When sources conflict, prefer: explicit human instruction; approved requirements
 
 | Platform | Native skills | Native teammates |
 | --- | --- | --- |
-| Codex | `.agents/skills/` | Use `docs/ai/teammates.md` and available delegation |
+| Codex | `.agents/skills/` | `.codex/agents/` native TOML roles; see `docs/ai/teammates.md` |
 | Cursor | `.cursor/skills/` | `.cursor/agents/` |
 | Claude Code | `.claude/skills/` | `.claude/agents/` |
 

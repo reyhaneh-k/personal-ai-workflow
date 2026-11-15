@@ -2,6 +2,8 @@ import { createHash } from 'node:crypto';
 import { lstat, mkdir, readFile, readdir, realpath, unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readingCatalog, teammateCatalog, builtInCatalog } from './source-contract.mjs';
+import { codexAgent, codexSkillMetadata } from './codex-format.mjs';
 
 const platforms = ['codex', 'cursor', 'claude'];
 const manifestPath = 'ai/generated-manifest.json';
@@ -11,6 +13,8 @@ const digest = (s) => createHash('sha256').update(typeof s === 'string' ? normal
 const validName = (s) => typeof s === 'string' && /^personal-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(s) && s.length < 64;
 const scopedAgents = (p) => /^(?!ai\/|\.git\/|\.agents\/|\.cursor\/|\.claude\/|docs\/ai\/|node_modules\/)(?:[a-zA-Z0-9_-]+\/)+AGENTS\.md$/.test(p);
 const allowed = (p) => p === 'AGENTS.md' || scopedAgents(p) ||
+  /^\.codex\/agents\/personal-[a-z0-9-]+\.toml$/.test(p) ||
+  /^\.agents\/skills\/personal-[a-z0-9-]+\/agents\/openai\.yaml$/.test(p) ||
   /^docs\/ai\/[a-zA-Z0-9-]+\.md$/.test(p) ||
   /^\.(?:agents|cursor|claude)\/skills\/personal-[a-z0-9-]+\/SKILL\.md$/.test(p) ||
   /^\.(?:agents|cursor|claude)\/skills\/personal-[a-z0-9-]+\/(?:scripts|references|assets)\/(?:[A-Za-z0-9._-]+\/)*[A-Za-z0-9._-]+$/.test(p) ||
@@ -81,7 +85,7 @@ function frontmatter(text, expectedName) {
   }
 }
 function mark(text, source, yaml = false) {
-  const note = 'GENERATED from ' + source + '; edit source and run pnpm ai:generate.';
+  const note = 'GENERATED from ' + source + '; edit source; generation requires an explicit human request.';
   if (yaml) return '# ' + note + '\n' + text.trimEnd() + '\n';
   const end = text.startsWith('---\n') ? text.indexOf('\n---', 4) + 4 : 0;
   const comment = '<!-- ' + note + ' -->';
@@ -119,6 +123,10 @@ export async function render(root) {
     skills.set(entry.name, { text, p, resources });
   }
   if (!skills.size) throw new Error('No source skills');
+  const metadataPath = 'ai/platform-overrides/codex/skill-metadata.json';
+  const skillMetadata = JSON.parse(await read(root, metadataPath));
+  if (!skillMetadata || typeof skillMetadata !== 'object' || Array.isArray(skillMetadata) ||
+    Object.keys(skillMetadata).some((name) => !skills.has(name))) throw new Error('Unknown Codex skill metadata override');
   const roles = [];
   for (const entry of await list(root, 'ai/source/agents')) {
     if (!entry.isFile() || !entry.name.endsWith('.json')) throw new Error('Invalid role file: ' + entry.name);
@@ -153,13 +161,18 @@ export async function render(root) {
     const adapterPath = 'ai/platform-overrides/' + platform + '/adapter.json';
     const adapter = JSON.parse(await read(root, adapterPath));
     const expectedSkills = platform === 'codex' ? '.agents/skills' : '.' + platform + '/skills';
-    const expectedAgents = platform === 'codex' ? null : '.' + platform + '/agents';
+    const expectedAgents = '.' + platform + '/agents';
     if (adapter.skillsDirectory !== expectedSkills || adapter.agentsDirectory !== expectedAgents)
       throw new Error('Invalid native directories: ' + platform);
     for (const [name, { text, p, resources }] of skills) {
       const others = platforms.filter((x) => x !== platform).map((x) => x === 'codex' ? '.agents/skills/' : '.' + x + '/skills/');
       if (others.some((prefix) => text.includes(prefix))) throw new Error('Cross-platform skill dependency: ' + name);
       emit(adapter.skillsDirectory + '/' + name + '/SKILL.md', text, p);
+      if (platform === 'codex') {
+        const description = text.match(/^description: (.+)$/m)[1].trim().replace(/^["']|["']$/g, '');
+        emit(adapter.skillsDirectory + '/' + name + '/agents/openai.yaml',
+          codexSkillMetadata(name, description, skillMetadata[name]), p + ' + ' + metadataPath, true);
+      }
       for (const resource of resources)
         emitRaw(adapter.skillsDirectory + '/' + name + '/' + resource.destination, await readBytes(root, resource.source));
     }
@@ -170,6 +183,14 @@ export async function render(root) {
       throw new Error('Unknown role override: ' + platform);
     for (const role of roles) {
       const override = overrides[role.name] ?? {};
+      if (platform === 'codex') {
+        const instructions = 'Follow shared AGENTS.md and docs/ai/reading-contract.md. Use ' + role.skills.join(', ') +
+          ' from .agents/skills/.\n\n' + role.body + '\n\nAllowed next teammates: ' + [...role.nextTeammates, 'none'].join(', ') +
+          '. Follow the shared Next teammate format; a handoff does not automatically launch an agent. ' +
+          'Inherit parent permissions and MCP configuration; read-only describes the role contract, not a separate sandbox.';
+        emit(adapter.agentsDirectory + '/' + role.name + '.toml', codexAgent(role, override, instructions), role.p + ' + ' + adapterPath, true);
+        continue;
+      }
       let model = 'inherit';
       if (platform === 'cursor') {
         if (Object.keys(override).some((key) => key !== 'model') ||
@@ -208,7 +229,11 @@ export async function render(root) {
   for (const entry of await list(root, 'ai/source/manual')) {
     if (!entry.isFile() || !/^[a-zA-Z0-9-]+\.md$/.test(entry.name)) throw new Error('Invalid manual: ' + entry.name);
     const p = 'ai/source/manual/' + entry.name;
-    emit('docs/ai/' + entry.name, await read(root, p), p);
+    const text = (await read(root, p))
+      .replace('<!-- SKILL_READING_TABLE -->', readingCatalog(skills))
+      .replace('<!-- TEAMMATE_TABLE -->', teammateCatalog(roles))
+      .replace('<!-- CURSOR_BUILTINS_TABLE -->', builtInCatalog(cursorBuiltIns));
+    emit('docs/ai/' + entry.name, text, p);
   }
   for (const [name, out] of [['BUGBOT.md', '.cursor/BUGBOT.md'], ['bugbot.yaml', '.cursor/config/bugbot.yaml']]) {
     const p = 'ai/platform-overrides/cursor/' + name, text = await read(root, p);

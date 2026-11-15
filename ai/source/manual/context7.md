@@ -127,7 +127,7 @@ All Personal teammates inherit the policy in `AGENTS.md`:
 5. If Context7 reports `401`, `402`, `429`, a connection failure, missing version coverage, or irrelevant evidence, stop retrying and switch to web search.
 6. In web search, prefer the library owner's official versioned documentation, release notes, source repository, and standards documentation. Avoid blogs and aggregators when a primary source exists.
 7. State the installed version, lookup path, sources used, and any mismatch or uncertainty.
-8. Record Context7 as `tool: "context7"` in the monthly tool audit when telemetry is available; record the web switch as a fallback.
+8. Record the lookup path and any web fallback in the task evidence when relevant; no formal monthly tool audit is required.
 
 ## Verification prompt
 

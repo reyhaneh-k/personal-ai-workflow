@@ -2,17 +2,17 @@
 
 These priorities are used by Cursor Agent Review for local changes and by Bugbot for merge requests. The two services remain separate review stages.
 
-Review only the submitted diff and behavior it can affect. Use `AGENTS.md`, `docs/ai/project-manual.md`, and the linked task requirement as context.
+Review only the submitted diff and behavior it can affect. Use `PROJECT.md`, `AGENTS.md`, and the linked task requirement as context. Apply only verified project requirements and enabled capability flags.
 
 Prioritize findings that can cause:
 
 - incorrect product behavior or unmet acceptance criteria;
 - regressions in shared components, routes, authentication, or financial flows;
 - API contract mismatches, unsafe retries, stale cache, or missing invalidation;
-- crashes or broken behavior in the Android webview;
-- incorrect RTL, Persian localization, Jalali/date, or monetary formatting;
+- broken native-container behavior only when `PROJECT.md` enables webview, using its confirmed platform and bridge contract;
+- incorrect locale, layout direction, date, or monetary formatting only when localization is enabled and the project requires it;
 - inaccessible keyboard, focus, label, or screen-reader behavior;
-- browser incompatibility with the production `browserslist` baseline;
+- browser incompatibility with the verified project browser baseline (do not assume a `browserslist` exists);
 - exposure of tokens, credentials, PII, or sensitive Sentry data;
 - missing error, loading, empty, disabled, partial, or success states;
 - tests that do not exercise the behavior they claim to protect.

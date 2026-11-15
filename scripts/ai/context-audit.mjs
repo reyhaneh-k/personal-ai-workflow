@@ -2,6 +2,9 @@ import { createHash } from 'node:crypto';
 import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { render } from '../../ai/generator/generate.mjs';
+import { readingRequirements, capabilityFlags } from '../../ai/generator/source-contract.mjs';
+import { inspectCodexContext } from './codex-discovery.mjs';
 
 const PLATFORMS = ['codex', 'cursor', 'claude'];
 const SKILL_ROOTS = {
@@ -29,7 +32,7 @@ async function filesNamed(root, name) {
       const target = path.join(directory, entry.name);
       if (entry.isSymbolicLink()) continue;
       if (entry.isDirectory()) await visit(target);
-      else if (entry.isFile() && entry.name === name) found.push(target);
+      else if (entry.isFile() && (typeof name === 'string' ? entry.name === name : name.test(entry.name))) found.push(target);
     }
   }
   await visit(root);
@@ -43,21 +46,34 @@ function skillMetadata(text, fallback) {
   return { name, description };
 }
 
-function requiredManualSections(text) {
-  const line = text.match(/^Required sections:\s*(.+)$/m)?.[1] ?? '';
-  return [...line.matchAll(/`(docs\/ai\/manual-[a-z-]+\.md)`/g)].map((match) => match[1]);
-}
-
 function unique(values) { return [...new Set(values)].sort(); }
 
 async function repositoryIntegrity(root) {
+  let expected;
+  try { expected = await render(root); }
+  catch (error) { return { status: 'invalid', checked: 0, drift: ['Canonical source validation failed: ' + error.message] }; }
   const manifestFile = path.join(root, 'ai/generated-manifest.json');
   const raw = await readOptional(manifestFile);
-  if (raw === null) return { status: 'missing', checked: 0, drift: ['ai/generated-manifest.json'] };
+  if (raw === null) {
+    const leftovers = [];
+    for (const relative of expected.keys()) {
+      if (await readOptional(path.join(root, relative)) !== null) leftovers.push(relative);
+    }
+    // Retired generator-marked files also make a checkout partially generated.
+    for (const relative of ['.agents/skills', '.codex/agents', '.cursor/skills', '.cursor/agents', '.cursor/rules',
+      '.claude/skills', '.claude/agents', 'docs/ai', 'ai/generated']) {
+      for (const file of await filesNamed(path.join(root, relative), /\.(?:md|mdc|yaml|toml)$/)) {
+        if ((await readFile(file, 'utf8')).includes('GENERATED from ')) leftovers.push(slash(path.relative(root, file)));
+      }
+    }
+    return leftovers.length
+      ? { status: 'missing', checked: 0, drift: ['Ownership manifest missing while generated outputs exist: ' + unique(leftovers).join(', ')] }
+      : { status: 'source-only', checked: 0, drift: [] };
+  }
   let manifest;
   try { manifest = JSON.parse(raw); }
   catch { return { status: 'invalid', checked: 0, drift: ['ai/generated-manifest.json is not valid JSON'] }; }
-  if (manifest.version !== 1 || !manifest.files || Array.isArray(manifest.files))
+  if (manifest.version !== 1 || !manifest.files || typeof manifest.files !== 'object' || Array.isArray(manifest.files))
     return { status: 'invalid', checked: 0, drift: ['ai/generated-manifest.json has an unsupported shape'] };
   const drift = [];
   for (const [relative, expected] of Object.entries(manifest.files)) {
@@ -65,9 +81,17 @@ async function repositoryIntegrity(root) {
       drift.push('invalid manifest entry: ' + relative);
       continue;
     }
-    const current = await readOptional(path.join(root, relative));
+    let current;
+    try { current = await readFile(path.join(root, relative)); }
+    catch (error) { if (error.code !== 'ENOENT') throw error; current = null; }
     if (current === null) drift.push(relative + ' is missing');
-    else if (digest(current) !== expected) drift.push(relative + ' differs from its generated hash');
+    else if (digest(current.toString('utf8')) !== expected &&
+      createHash('sha256').update(current).digest('hex') !== expected) drift.push(relative + ' differs from its generated hash');
+  }
+  for (const relative of new Set([...expected.keys(), ...Object.keys(manifest.files)])) {
+    const text = expected.get(relative);
+    const hash = text === undefined ? null : createHash('sha256').update(typeof text === 'string' ? normalize(text) : text).digest('hex');
+    if (manifest.files[relative] !== hash) drift.push(relative + ' is out of date with canonical sources');
   }
   return { status: drift.length ? 'drift' : 'current', checked: Object.keys(manifest.files).length, drift, manifest };
 }
@@ -92,10 +116,6 @@ async function discoverSkills(root, platform) {
 }
 
 async function discoverTeammates(root, platform) {
-  if (platform === 'codex') {
-    const catalog = await readOptional(path.join(root, 'docs/ai/teammates.md'));
-    return { mode: 'shared role catalog; runtime delegation is platform-managed', paths: catalog === null ? [] : ['docs/ai/teammates.md'] };
-  }
   const paths = [];
   for (const relativeRoot of TEAMMATE_ROOTS[platform]) {
     let entries = [];
@@ -104,6 +124,15 @@ async function discoverTeammates(root, platform) {
     paths.push(...entries.filter((entry) => entry.isFile() && entry.name.endsWith('.md')).map((entry) => relativeRoot + '/' + entry.name));
   }
   return { mode: 'native project teammates', paths: paths.sort() };
+}
+
+async function discoverSourceSkills(root) {
+  const skills = [];
+  for (const file of await filesNamed(path.join(root, 'ai/source/skills'), 'SKILL.md')) {
+    const text = normalize(await readFile(file, 'utf8'));
+    skills.push({ ...skillMetadata(text, path.basename(path.dirname(file))), text });
+  }
+  return skills;
 }
 
 function validateRuntimeEvidence(runtime) {
@@ -127,15 +156,29 @@ export async function auditContext(rootDirectory, options) {
   const repositoryOnly = Boolean(options.repositoryOnly);
   const runtime = validateRuntimeEvidence(options.runtime ?? null);
   const integrity = await repositoryIntegrity(root);
-  const skills = await discoverSkills(root, platform);
-  const teammates = await discoverTeammates(root, platform);
+  const codex = platform === 'codex' ? await inspectCodexContext(root, {
+    workingDirectory: options.workingDirectory, includeUser: options.includeUser,
+    userHome: options.userHome, codexHome: options.codexHome, followExternalLinks: options.followExternalLinks,
+    evidence: runtime?.codex,
+  }) : null;
+  const skills = codex?.skills ?? await discoverSkills(root, platform);
+  const teammates = codex?.teammates ?? await discoverTeammates(root, platform);
+  const sourceSkills = await discoverSourceSkills(root);
+  const flags = capabilityFlags(normalize(await readOptional(path.join(root, 'PROJECT.md')) ?? ''));
+  const sourceOnly = integrity.status === 'source-only';
   const findings = [];
   const invalid = [];
 
-  if (integrity.status !== 'current') invalid.push('Generated AI files are not synchronized: ' + integrity.drift.join('; '));
+  if (!['current', 'source-only'].includes(integrity.status)) invalid.push('AI source/output validation failed: ' + integrity.drift.join('; '));
+  if (codex?.instructions.byteLimitReached) findings.push('Instruction candidates exceed the configured/default byte limit; some guidance may be truncated.');
+  if (codex?.instructions.shadowed.length) findings.push('Instruction files are shadowed by higher-priority candidates; inspect the Codex instruction chain.');
+  if (codex?.instructions.runtimeChainMismatch) findings.push('Reported runtime instruction paths differ from filesystem candidates; inspect effective configuration and scope.');
+  if (codex?.skills.skippedLinks.length) findings.push('External skill links were excluded; pass --follow-external-links only when that read scope is intended.');
   for (const duplicate of skills.duplicates) {
     const message = duplicate.name + ' is discoverable from ' + duplicate.paths.join(', ');
-    if (duplicate.kind === 'conflicting') invalid.push('Conflicting skill copies: ' + message);
+    const enabledCopies = skills.items.filter((item) => item.name === duplicate.name && item.enabled !== false);
+    if (duplicate.kind === 'conflicting' && enabledCopies.length > 1) invalid.push('Conflicting skill copies: ' + message);
+    else if (duplicate.kind === 'conflicting') findings.push('Conflicting discovery candidates include disabled copies: ' + message);
     else findings.push('Identical duplicate skill candidates: ' + message);
   }
 
@@ -147,15 +190,19 @@ export async function auditContext(rootDirectory, options) {
   if (runtime) {
     agentsLoaded = runtime.agentsLoaded === true ? 'yes' : runtime.agentsLoaded === false ? 'no' : 'unknown';
     if (runtime.agentsHash) agentsHashMatch = runtime.agentsHash === agentsHash;
-    if (runtime.agentsLoaded === false) invalid.push('Runtime evidence says AGENTS.md was not loaded.');
+    if (runtime.agentsLoaded === false && !sourceOnly) invalid.push('Runtime evidence says AGENTS.md was not loaded.');
     if (agentsHashMatch === false) invalid.push('Runtime AGENTS.md hash does not match this checkout.');
   } else if (!repositoryOnly) findings.push('Live AGENTS.md loading is unknown; supply runtime evidence from the platform.');
 
   const activeSkill = options.activeSkill ?? runtime?.activeSkill ?? null;
-  const activeCopies = activeSkill ? skills.items.filter((skill) => skill.name === activeSkill) : [];
-  if (activeSkill && !activeCopies.length) invalid.push('Active skill is not discoverable for ' + platform + ': ' + activeSkill);
-  const requiredSections = activeCopies.length ? requiredManualSections(activeCopies[0].text) : [];
-  const loadedSections = unique([...(options.manualSections ?? []), ...(runtime?.manualSections ?? [])]);
+  const nativeCopies = activeSkill ? skills.items.filter((skill) => skill.name === activeSkill) : [];
+  if (nativeCopies.length && nativeCopies.every((copy) => copy.enabled === false)) invalid.push('Active skill is disabled by supplied Codex configuration evidence: ' + activeSkill);
+  const eligibleCopies = nativeCopies.filter((copy) => copy.enabled !== false);
+  const activeCopies = eligibleCopies.length ? eligibleCopies : nativeCopies.length ? nativeCopies : sourceOnly ? sourceSkills.filter((skill) => skill.name === activeSkill) : [];
+  if (activeSkill && !activeCopies.length) invalid.push('Active skill has no applicable native or canonical source: ' + activeSkill);
+  const requiredSections = activeCopies.length ? readingRequirements(activeCopies[0].text, flags).applicable : [];
+  const loadedSections = unique([...(options.manualSections ?? []), ...(runtime?.manualSections ?? [])]
+    .map((section) => section.replace(/^ai\/source\/manual\//, 'docs/ai/')));
   const missingSections = requiredSections.filter((section) => !loadedSections.includes(section));
   if (activeSkill && missingSections.length) invalid.push('Required manual sections were not evidenced as loaded: ' + missingSections.join(', '));
   if (!activeSkill && !repositoryOnly) findings.push('No active task skill was supplied.');
@@ -178,6 +225,7 @@ export async function auditContext(rootDirectory, options) {
 
   return {
     platform,
+    codex: codex ? { ...codex, skills: { ...codex.skills, items: codex.skills.items.map(({ text, ...item }) => item) } } : null,
     result: invalid.length ? 'invalid' : findings.length ? 'warning' : 'healthy',
     repository: { status: integrity.status, generatedFilesChecked: integrity.checked, drift: integrity.drift },
     instructions: {
@@ -187,10 +235,12 @@ export async function auditContext(rootDirectory, options) {
     skills: {
       roots: skills.roots,
       discovered: unique(skills.items.map((skill) => skill.name)),
+      sourceAvailable: unique(sourceSkills.map((skill) => skill.name)),
       duplicates: skills.duplicates.map(({ name, kind, paths }) => ({ name, kind, paths })),
     },
     teammates,
-    activeTask: { skill: activeSkill, requiredManualSections: requiredSections, loadedManualSections: loadedSections, missingManualSections: missingSections },
+    activeTask: { skill: activeSkill, basis: activeCopies.length ? nativeCopies.length ? 'native' : 'canonical-source' : null,
+      requiredManualSections: requiredSections, loadedManualSections: loadedSections, missingManualSections: missingSections },
     integrations: { enabledMcp, usedMcp, unusedMcp, status: runtime ? 'runtime-evidenced' : repositoryOnly ? 'not-checked' : 'unknown' },
     contextSources: { available: contextSources, used: usedContextSources, unused: unusedContextSources },
     findings,
@@ -216,18 +266,28 @@ export function formatMarkdown(report) {
     '| AGENTS.md hash | ' + (report.instructions.repositoryHash ?? 'missing') + ' |',
     '| Runtime evidence | ' + (report.instructions.evidenceSource ?? 'none') + ' |',
     '| Active skill | ' + (report.activeTask.skill ?? 'not supplied') + ' |',
+    '| Active skill basis | ' + (report.activeTask.basis ?? 'not supplied') + ' |',
     '| Required manual sections | ' + line(report.activeTask.requiredManualSections) + ' |',
     '| Missing manual sections | ' + line(report.activeTask.missingManualSections) + ' |',
     '| Enabled MCP integrations | ' + line(report.integrations.enabledMcp) + ' |',
     '| Unused enabled MCP integrations | ' + line(report.integrations.unusedMcp) + ' |',
     '| Unused context sources | ' + line(report.contextSources.unused) + ' |',
     '| Teammates | ' + line(report.teammates.paths) + ' |',
+    ...(report.codex ? [
+      '| Codex working directory | ' + report.codex.workingDirectory + ' |',
+      '| Codex instruction scope | ' + report.codex.scope.globalInstructions + ' global; filesystem candidates only |',
+      '| Codex effective permissions | ' + JSON.stringify(report.codex.configuration.effectiveValues) + ' |',
+      '| Codex instruction candidates | ' + line(report.codex.instructions.chain.map((item) => item.path)) + ' |',
+      '| Codex shadowed instructions | ' + line(report.codex.instructions.shadowed.map((item) => item.path)) + ' |',
+    ] : []),
     '',
     '## Skills',
     '',
     'Discovery roots: ' + line(report.skills.roots),
     '',
-    'Discovered: ' + line(report.skills.discovered),
+    'Native discovery candidates: ' + line(report.skills.discovered),
+    '',
+    'Canonical sources available (not proof of runtime loading): ' + line(report.skills.sourceAvailable),
     '',
     'Duplicate candidates:',
     duplicateLines,
@@ -240,7 +300,7 @@ export function formatMarkdown(report) {
 }
 
 function usage() {
-  return 'Usage: node scripts/ai/context-audit.mjs (--platform codex|cursor|claude | --all) [--active-skill NAME] [--manual PATH ...] [--runtime FILE] [--repository-only] [--format markdown|json]';
+  return 'Usage: node scripts/ai/context-audit.mjs (--platform codex|cursor|claude | --all) [--active-skill NAME] [--manual PATH ...] [--runtime FILE] [--repository-only] [--working-directory PATH] [--include-user] [--codex-home PATH] [--follow-external-links] [--format markdown|json]';
 }
 
 function parseArgs(args) {
@@ -253,6 +313,10 @@ function parseArgs(args) {
     else if (arg === '--manual') options.manualSections.push(args[++index]);
     else if (arg === '--runtime') options.runtimeFile = args[++index];
     else if (arg === '--repository-only') options.repositoryOnly = true;
+    else if (arg === '--working-directory') options.workingDirectory = args[++index];
+    else if (arg === '--include-user') options.includeUser = true;
+    else if (arg === '--codex-home') options.codexHome = args[++index];
+    else if (arg === '--follow-external-links') options.followExternalLinks = true;
     else if (arg === '--format') options.format = args[++index];
     else if (arg === '--help') options.help = true;
     else throw new Error('Unknown argument: ' + arg);
@@ -263,6 +327,9 @@ function parseArgs(args) {
   if (options.all && (options.activeSkill || options.runtimeFile || options.manualSections.length))
     throw new Error('--all is repository-only and cannot accept task runtime evidence.');
   if (options.all) options.repositoryOnly = true;
+  if ((options.includeUser || options.codexHome || options.followExternalLinks || options.workingDirectory) && options.platform !== 'codex')
+    throw new Error('Codex discovery options require --platform codex.');
+  if (options.codexHome && !options.includeUser) throw new Error('--codex-home requires --include-user.');
   return options;
 }
 

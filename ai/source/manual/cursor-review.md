@@ -2,7 +2,7 @@
 
 Cursor has three separate review surfaces. Keep their evidence and responsibilities distinct.
 
-Source-only checkout note: run `pnpm ai:generate` for local review files. Ignored Bugbot files are not available to the hosted repository integration; its configuration and disabled Autofix must be verified separately. Local or CI generation is not evidence that hosted Bugbot consumed these instructions.
+Source-only checkout note: inspect canonical review sources directly. Generating local review files requires an explicit human request; see `ai/README.md`. Ignored Bugbot files are not available to the hosted repository integration; its configuration and disabled Autofix must be verified separately. Local or CI generation is not evidence that hosted Bugbot consumed these instructions.
 
 | Review | Scope | Trigger | Responsibility |
 | --- | --- | --- | --- |

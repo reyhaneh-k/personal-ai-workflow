@@ -46,8 +46,8 @@ Document only verified facts for this copy of the workflow. Prefer `package.json
 1. Copy this workflow into the target repository (or start from this template).
 2. Fill this `PROJECT.md`.
 3. Soften or extend `ai/source/manual/` for enduring project practices.
-4. Run `pnpm ai:generate` (or `node ai/generator/generate.mjs`).
+4. Keep sources only; generate native files with `pnpm ai:generate` only when explicitly requested.
 5. Confirm Cursor discovers `AGENTS.md`, `.cursor/skills/`, and `.cursor/agents/`.
 6. Disconnect unused MCP servers so their tool schemas do not consume context.
 
-The workflow is intentionally adaptable. Update `ai/source/` to encode enduring practices, then regenerate local platform files. Skill and agent IDs keep the `personal-*` prefix as the workflow brand.
+The workflow is intentionally adaptable. Update `ai/source/` to encode enduring practices, then generate local platform files only when explicitly requested. Skill and agent IDs keep the `personal-*` prefix as the workflow brand.

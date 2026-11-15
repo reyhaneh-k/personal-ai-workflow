@@ -71,7 +71,7 @@ The final task record and **Next teammate** block from `AGENTS.md` carry conclus
 - Keep the context manifest synchronized when a source, code area, integration, or manual section becomes relevant or is deliberately excluded.
 - Keep stable instructions and tool definitions unchanged when practical so platforms that support prompt caching can reuse them.
 - Use MCP only when it is the selected and useful source. Disconnect or avoid unused servers whose tool definitions consume context.
-- Do not impose fixed tool-call or tool-output budgets that can prevent an agent from completing a legitimate investigation. Record available tool telemetry in the monthly audit and optimize demonstrated waste rather than hypothetical use.
+- Do not impose fixed tool-call or tool-output budgets that can prevent an agent from completing a legitimate investigation. Use available task evidence to optimize demonstrated waste rather than hypothetical use.
 - Use a teammate only for an independent responsibility that justifies fresh context. Do not duplicate the same investigation across agents without a reason.
 - Stop retry loops when the evidence is unchanged; report the blocker or choose a documented fallback.
 

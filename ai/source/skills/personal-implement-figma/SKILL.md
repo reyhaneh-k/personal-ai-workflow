@@ -7,9 +7,9 @@ description: Implement an approved Personal frontend design from a specific Figm
 
 ## Manual context
 
-For interactive browser execution in Cursor, read `docs/ai/cursor-browser.md` for setup, session/data preflight, evidence, and fallback handling. Use actual available capabilities; native browser checks do not establish cross-browser coverage or webview coverage when `PROJECT.md` enables `webview`.
+Required sections: `docs/ai/manual-design.md`, `docs/ai/manual-coding.md`, `docs/ai/manual-accessibility.md`.
 
-Required sections: `docs/ai/manual-design.md`, `docs/ai/manual-coding.md`, `docs/ai/manual-localization.md`, `docs/ai/manual-accessibility.md`.
+Conditional sections (localization): `docs/ai/manual-localization.md`.
 
 Read these additional sections when their trigger applies:
 
@@ -23,7 +23,7 @@ Read these additional sections when their trigger applies:
 - Cursor visual refinement or Design Mode input: `docs/ai/cursor-design-mode.md`. Use the selected running UI as current-state evidence and retain the approved Figma node/export as the target; existing integration preflight still applies.
 - assets, fonts, or motion: `docs/ai/manual-performance.md`.
 
-Follow the reading contract in `AGENTS.md`. The required and conditional lists above are authoritative for this skill. Consult `docs/ai/manual-routing.md` only for a mixed task or an impact not covered above. Record selected sections and material gaps in the context manifest; never treat template prompts as approved rules. Read the relevant task-record, readiness, impact, and completion sections of `docs/ai/workflows.md`.
+Follow the shared reading contract in `AGENTS.md`. Read the relevant task-record, readiness, impact, and completion sections of `docs/ai/workflows.md`.
 
 ## Required inputs
 

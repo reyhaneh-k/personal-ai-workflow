@@ -1,6 +1,6 @@
 # Cursor Project Rules
 
-This generated directory is reserved for narrowly scoped Cursor project rules. Edit `ai/platform-overrides/cursor/rules/`, then run `pnpm ai:generate`; never edit `.cursor/rules/` directly. Only the source is committed.
+This generated directory is reserved for narrowly scoped Cursor project rules. Edit `ai/platform-overrides/cursor/rules/`, then generate only when explicitly requested under `ai/README.md`; never edit `.cursor/rules/` directly. Only the source is committed.
 
 `README.md` is documentation only. Cursor does not apply it as a rule because project rules must use the `.mdc` extension and valid Cursor rule frontmatter.
 

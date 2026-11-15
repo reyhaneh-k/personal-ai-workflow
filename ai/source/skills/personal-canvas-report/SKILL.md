@@ -7,6 +7,8 @@ description: Create or refresh a consistent Personal Canvas report for feature r
 
 ## Manual context
 
+Required sections: `docs/ai/cursor-canvas.md`.
+
 Read `docs/ai/cursor-canvas.md` for native rendering, evidence, and sharing behavior. Presentation of existing evidence requires no product-manual sections. If analysis or fresh data is needed, use only the relevant source workflow below and its required/conditional readings. Reuse results already in context; do not recursively rerun a source workflow that handed its completed results to this skill.
 
 ## Inputs

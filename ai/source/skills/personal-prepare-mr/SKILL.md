@@ -18,7 +18,7 @@ Read these additional sections when their trigger applies:
 - unclear intent: `docs/ai/manual-product.md`.
 - monitoring or production risk when `PROJECT.md` enables sentry: `docs/ai/manual-observability.md`.
 
-Follow the reading contract in `AGENTS.md`. The required and conditional lists above are authoritative for this skill. Consult `docs/ai/manual-routing.md` only for a mixed task or an impact not covered above. Record selected sections and material gaps in the context manifest; never treat template prompts as approved rules.
+Follow the shared reading contract in `AGENTS.md`.
 
 This workflow does not create an MR/PR. It prepares a link for a human to open and submit.
 

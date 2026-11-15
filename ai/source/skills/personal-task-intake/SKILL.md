@@ -7,8 +7,6 @@ description: Prepare a this workflow frontend task by gathering authoritative co
 
 ## Manual context
 
-When presenting results in a Canvas, use the current platform's `personal-canvas-report` skill for the stable layout and formatting contract. Pass completed evidence to it; do not repeat this workflow solely for rendering.
-
 Required sections: `docs/ai/manual-product.md`, `docs/ai/manual-architecture.md`.
 
 Read these additional sections when their trigger applies:
@@ -20,7 +18,7 @@ Read these additional sections when their trigger applies:
 - platform constraints: `docs/ai/manual-compatibility.md`.
 - acceptance and verification expectations: `docs/ai/manual-testing.md`.
 
-Follow the reading contract in `AGENTS.md`. The required and conditional lists above are authoritative for this skill. Consult `docs/ai/manual-routing.md` only for a mixed task or an impact not covered above. Record selected sections and material gaps in the context manifest; never treat template prompts as approved rules.
+Follow the shared reading contract in `AGENTS.md`.
 
 Read the relevant sections of `docs/ai/workflows.md` for intake and impact checks.
 

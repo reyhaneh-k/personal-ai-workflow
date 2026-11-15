@@ -9,8 +9,6 @@ Apply only when `PROJECT.md` enables `sentry`. If sentry is off, report not appl
 
 ## Manual context
 
-When presenting results in a Canvas, use the current platform's `personal-canvas-report` skill for the stable layout and formatting contract. Pass completed evidence to it; do not repeat this workflow solely for rendering.
-
 Required sections: `docs/ai/manual-observability.md`, `docs/ai/manual-security.md`.
 
 Read these additional sections when their trigger applies:
@@ -23,7 +21,7 @@ Read these additional sections when their trigger applies:
 - slowdowns or memory issues: `docs/ai/manual-performance.md`.
 - release correlation: `docs/ai/manual-delivery.md`.
 
-Follow the reading contract in `AGENTS.md`. The required and conditional lists above are authoritative for this skill. Consult `docs/ai/manual-routing.md` only for a mixed task or an impact not covered above. Record selected sections and material gaps in the context manifest; never treat template prompts as approved rules.
+Follow the shared reading contract in `AGENTS.md`.
 
 ## Required configuration
 
